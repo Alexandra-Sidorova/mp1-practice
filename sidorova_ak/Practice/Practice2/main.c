@@ -3,10 +3,10 @@
 #include <time.h>
 
 void main()
-{
-	srand((unsigned int)time(0));
+{	
 	int n, i, pc, a, b, tmp, f, pl, k, bulls, cows;
 	int player[10];
+	srand((unsigned int)time(0));
 
 	printf("\n               \"Bulls and cows\"\n");
 	printf("\nCows - the amount of digits in the intended number that do not stand in their place.");
