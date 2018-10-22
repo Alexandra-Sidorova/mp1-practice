@@ -1,4 +1,4 @@
-﻿#include <stdio.h>
+#include <stdio.h>
 #include <math.h>
 #include <locale.h>
 
@@ -45,5 +45,5 @@ void main()
         return;
     }
     
-	printf("Окружности пересекаются и имеют две общие точки.\n");
+    printf("Окружности пересекаются и имеют две общие точки.\n");
 }
