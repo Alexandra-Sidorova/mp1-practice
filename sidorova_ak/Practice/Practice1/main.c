@@ -3,7 +3,7 @@
 #include <math.h>
 
 void main()
-    {
+{
     float h, w, d, m; // Параметры шкафа
     float densityDSP, densityDVP, densityTree; // Плотности материалов
     float wall, sides, doors, lids, shelfs; // Части шкафа
