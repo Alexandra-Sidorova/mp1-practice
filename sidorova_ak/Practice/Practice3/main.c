@@ -12,7 +12,7 @@ void main()
     printf("\nThis game have a two modes.\n1. You VS PC.\n2. PC VS You.");
 
     do {                                                                            // Проверка на ввод выбора
-		printf("\nIf you want to play in first mode, enter \"1\". ");
+        printf("\nIf you want to play in first mode, enter \"1\". ");
         printf("If you want to play in secoud mode, enter \"2\".\nYour choise is ");
         scanf("%d", &a);
     } while ((a != 1) && (a != 2));
