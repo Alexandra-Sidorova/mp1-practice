@@ -38,4 +38,5 @@ void main()
     shelfs = floor(h / (0.4 + 15 / 1000.0f)) * w * d * (15 / 1000.0f) * densityDSP; // Пусть высота полки равна 15 мм
 
     m = wall + sides + lids + doors + shelfs;
+    printf("Масса шкафа в кг равна %.3f\n", m);
 }
