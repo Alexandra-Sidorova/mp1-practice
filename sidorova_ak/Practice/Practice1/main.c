@@ -3,7 +3,7 @@
 #include <math.h>
 
 void main()
-    {
+{
     float h, w, d, m; // Параметры шкафа
     float densityDSP, densityDVP, densityTree; // Плотности материалов
     float wall, sides, doors, lids, shelfs; // Части шкафа
@@ -38,4 +38,4 @@ void main()
     shelfs = floor(h / (0.4 + 15 / 1000.0f)) * w * d * (15 / 1000.0f) * densityDSP; // Пусть высота полки равна 15 мм
 
     m = wall + sides + lids + doors + shelfs;
-   
+}
