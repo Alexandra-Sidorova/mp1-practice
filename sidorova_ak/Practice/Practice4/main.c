@@ -4,89 +4,89 @@
 #define N 62
 #define COUNT 25
 
-int ScanBarcode(char a[][4], int check[][2], int k)               // Функция на сканирование штрих-кода
+int ScanBarcode(char a[][4], int check[][2], int k)               // Р¤СѓРЅРєС†РёСЏ РЅР° СЃРєР°РЅРёСЂРѕРІР°РЅРёРµ С€С‚СЂРёС…-РєРѕРґР°
 {
     int i = 0, number = -1, f = 0;
     char inbarcode[4];
 
-    for (i; i < 4; i++)                                           // Ввод посимвольно 
+    for (i; i < 4; i++)                                           // Р’РІРѕРґ РїРѕСЃРёРјРІРѕР»СЊРЅРѕ 
     {
         inbarcode[i] = getchar();
-        if (inbarcode[i] == '\n')                                 // Условие, если штрих-код меньше 4 символов (А вдруг)
+        if (inbarcode[i] == '\n')                                 // РЈСЃР»РѕРІРёРµ, РµСЃР»Рё С€С‚СЂРёС…-РєРѕРґ РјРµРЅСЊС€Рµ 4 СЃРёРјРІРѕР»РѕРІ (Рђ РІРґСЂСѓРі)
         {
-            f = 1;                                                // Для этого поставим флажок и выйдем из цикла ввода сразу
+            f = 1;                                                // Р”Р»СЏ СЌС‚РѕРіРѕ РїРѕСЃС‚Р°РІРёРј С„Р»Р°Р¶РѕРє Рё РІС‹Р№РґРµРј РёР· С†РёРєР»Р° РІРІРѕРґР° СЃСЂР°Р·Сѓ
             break;
         }
     }
 
-    if (f == 1) return -1;                                        // Если меньше 4 символов, то на выход из функции
+    if (f == 1) return -1;                                        // Р•СЃР»Рё РјРµРЅСЊС€Рµ 4 СЃРёРјРІРѕР»РѕРІ, С‚Рѕ РЅР° РІС‹С…РѕРґ РёР· С„СѓРЅРєС†РёРё
 
-    if (getchar() != '\n')                                        // Условие на проверку больше 4 символов. Если последний символ (5-ый)
-    {                                                             // не перевод строки (enter), а еще один символ
-        while (getchar() != '\n');                                // Очищение потока ввода от \n (переноса строки, т.е. enter)
+    if (getchar() != '\n')                                        // РЈСЃР»РѕРІРёРµ РЅР° РїСЂРѕРІРµСЂРєСѓ Р±РѕР»СЊС€Рµ 4 СЃРёРјРІРѕР»РѕРІ. Р•СЃР»Рё РїРѕСЃР»РµРґРЅРёР№ СЃРёРјРІРѕР» (5-С‹Р№)
+    {                                                             // РЅРµ РїРµСЂРµРІРѕРґ СЃС‚СЂРѕРєРё (enter), Р° РµС‰Рµ РѕРґРёРЅ СЃРёРјРІРѕР»
+        while (getchar() != '\n');                                // РћС‡РёС‰РµРЅРёРµ РїРѕС‚РѕРєР° РІРІРѕРґР° РѕС‚ \n (РїРµСЂРµРЅРѕСЃР° СЃС‚СЂРѕРєРё, С‚.Рµ. enter)
         return -1;
     }
 
-    for (i = 0; i < N + 1; i++)                                   // Поиск совпадений с базой данной штрих-кодов маркета по номеру в БД
+    for (i = 0; i < N + 1; i++)                                   // РџРѕРёСЃРє СЃРѕРІРїР°РґРµРЅРёР№ СЃ Р±Р°Р·РѕР№ РґР°РЅРЅРѕР№ С€С‚СЂРёС…-РєРѕРґРѕРІ РјР°СЂРєРµС‚Р° РїРѕ РЅРѕРјРµСЂСѓ РІ Р‘Р”
     {
         if ((inbarcode[0] == a[i][0]) && (inbarcode[1] == a[i][1]) && (inbarcode[2] == a[i][2]) && (inbarcode[3] == a[i][3]))
         {
-            number = i;                                           // При совпадении присваиваем номер товара в базе данных
+            number = i;                                           // РџСЂРё СЃРѕРІРїР°РґРµРЅРёРё РїСЂРёСЃРІР°РёРІР°РµРј РЅРѕРјРµСЂ С‚РѕРІР°СЂР° РІ Р±Р°Р·Рµ РґР°РЅРЅС‹С…
             break;
         }
     }
 
-    if ((number != -1) && (number != 62))                         // Если это не "левый" штрих-код и не 0000, то записываем в БД чека
-    {                                                             // по номеру - количество различных товаров
-        check[k][0] = number;                                     // Номер товара в БД чека
-        check[k][1] = 1;                                          // Добавление товара по номеру в БД чека
+    if ((number != -1) && (number != 62))                         // Р•СЃР»Рё СЌС‚Рѕ РЅРµ "Р»РµРІС‹Р№" С€С‚СЂРёС…-РєРѕРґ Рё РЅРµ 0000, С‚Рѕ Р·Р°РїРёСЃС‹РІР°РµРј РІ Р‘Р” С‡РµРєР°
+    {                                                             // РїРѕ РЅРѕРјРµСЂСѓ - РєРѕР»РёС‡РµСЃС‚РІРѕ СЂР°Р·Р»РёС‡РЅС‹С… С‚РѕРІР°СЂРѕРІ
+        check[k][0] = number;                                     // РќРѕРјРµСЂ С‚РѕРІР°СЂР° РІ Р‘Р” С‡РµРєР°
+        check[k][1] = 1;                                          // Р”РѕР±Р°РІР»РµРЅРёРµ С‚РѕРІР°СЂР° РїРѕ РЅРѕРјРµСЂСѓ РІ Р‘Р” С‡РµРєР°
     }
 
     return number;
 }
 
-void DescriptionOfProduct(int number, char barc[][4], char db[][16], int pr[], int sale[])  // Функция на описание товара
+void DescriptionOfProduct(int number, char barc[][4], char db[][16], int pr[], int sale[])  // Р¤СѓРЅРєС†РёСЏ РЅР° РѕРїРёСЃР°РЅРёРµ С‚РѕРІР°СЂР°
 {
     int i = 0;
     printf(" Product - %c%c%c%c ", barc[number][0], barc[number][1], barc[number][2], barc[number][3]);
     for (i; i < 16; i++)
     {
-        printf("%c", db[number][i]);                              // Вывод наименования товара
+        printf("%c", db[number][i]);                              // Р’С‹РІРѕРґ РЅР°РёРјРµРЅРѕРІР°РЅРёСЏ С‚РѕРІР°СЂР°
     }
     printf(" %d rub. %d%%\n ", pr[number], sale[number]);
 }
 
-int AllCost(int check[][2], int price[], int count_products)      // Функция на общую чистую стоимость без скидок
+int AllCost(int check[][2], int price[], int count_products)      // Р¤СѓРЅРєС†РёСЏ РЅР° РѕР±С‰СѓСЋ С‡РёСЃС‚СѓСЋ СЃС‚РѕРёРјРѕСЃС‚СЊ Р±РµР· СЃРєРёРґРѕРє
 {
     int cost = 0, i = 0;
 
     for (i; i < count_products; i++)
-        cost += check[i][1] * price[check[i][0]];                 // К сумме прибавляем количество товара в БД чека, умноженное
-                                                                  // на его цену из БД расценки по номеру в БД чека
+        cost += check[i][1] * price[check[i][0]];                 // Рљ СЃСѓРјРјРµ РїСЂРёР±Р°РІР»СЏРµРј РєРѕР»РёС‡РµСЃС‚РІРѕ С‚РѕРІР°СЂР° РІ Р‘Р” С‡РµРєР°, СѓРјРЅРѕР¶РµРЅРЅРѕРµ
+                                                                  // РЅР° РµРіРѕ С†РµРЅСѓ РёР· Р‘Р” СЂР°СЃС†РµРЅРєРё РїРѕ РЅРѕРјРµСЂСѓ РІ Р‘Р” С‡РµРєР°
     return cost;
 }
 
-float TotalCost(int check[][2], int prices[], int sales[], int count_products, int cost)        // Функция на общую стоимость со скидками
+float TotalCost(int check[][2], int prices[], int sales[], int count_products, int cost)        // Р¤СѓРЅРєС†РёСЏ РЅР° РѕР±С‰СѓСЋ СЃС‚РѕРёРјРѕСЃС‚СЊ СЃРѕ СЃРєРёРґРєР°РјРё
 {
     float cost_with_sales = 0;
     int i = 0;
 
-    for (i; i < count_products; i++)                                                           // Цикл на сумму всех стоимостей
-    {                                                                                          // товаров с утчетом их скидок
+    for (i; i < count_products; i++)                                                           // Р¦РёРєР» РЅР° СЃСѓРјРјСѓ РІСЃРµС… СЃС‚РѕРёРјРѕСЃС‚РµР№
+    {                                                                                          // С‚РѕРІР°СЂРѕРІ СЃ СѓС‚С‡РµС‚РѕРј РёС… СЃРєРёРґРѕРє
         cost_with_sales += check[i][1] * prices[check[i][0]] * (1.0 - sales[check[i][0]] / 100.0);
     }
 
-    return cost_with_sales;                                       // Возвращаем значение общей скидки
-}                                                                 // Через (1 - отношение суммы со скидками на чистую сумму покупки)
+    return cost_with_sales;                                       // Р’РѕР·РІСЂР°С‰Р°РµРј Р·РЅР°С‡РµРЅРёРµ РѕР±С‰РµР№ СЃРєРёРґРєРё
+}                                                                 // Р§РµСЂРµР· (1 - РѕС‚РЅРѕС€РµРЅРёРµ СЃСѓРјРјС‹ СЃРѕ СЃРєРёРґРєР°РјРё РЅР° С‡РёСЃС‚СѓСЋ СЃСѓРјРјСѓ РїРѕРєСѓРїРєРё)
 
 void OutputCheck(char name[][16], int price[], int count[][2], int sale[], int count_product, int cost, float cost_sale, float total)
-{                                                                 // Функция на вывод чека
+{                                                                 // Р¤СѓРЅРєС†РёСЏ РЅР° РІС‹РІРѕРґ С‡РµРєР°
     int i = 0, j;
 
     printf("\n ****** Loading ... ******\n\n #########################\n ######### CHECK #########\n #########################\n");
     printf("\n Market: \"MARIA RA\" \n Cashier: Sidorova Alexandra\n Products:\n ");
 
-    for (i; i < count_product; i++)                               // Выписываем товары с описанием
+    for (i; i < count_product; i++)                               // Р’С‹РїРёСЃС‹РІР°РµРј С‚РѕРІР°СЂС‹ СЃ РѕРїРёСЃР°РЅРёРµРј
     {
         for (j = 0; j < 16; j++)
             printf("%c", name[count[i][0]][j]);
@@ -118,37 +118,37 @@ void main()
         "0140", "0141", "0142", "0143", "0144", "0145", "0146", "0147", "0148", "0149", "0150", "0151", "0152",
         "0153", "0154", "0155", "0156", "0157", "0158", "0159", "0160", "0161", "0162", "0000" };
     int check_barcode[COUNT][2] = { 0 };
-    int barcode_number, i, count_product = 0, cost = 0, f = 0;             // count_product - количество разных товаров
+    int barcode_number, i, count_product = 0, cost = 0, f = 0;             // count_product - РєРѕР»РёС‡РµСЃС‚РІРѕ СЂР°Р·РЅС‹С… С‚РѕРІР°СЂРѕРІ
     float all_sale = 0, total = 0;
     srand((unsigned int)time(0));
 
-    for (i = 0; i < N; i++)                                                // В данном магазине скидки генерятся случайным образом :)
+    for (i = 0; i < N; i++)                                                // Р’ РґР°РЅРЅРѕРј РјР°РіР°Р·РёРЅРµ СЃРєРёРґРєРё РіРµРЅРµСЂСЏС‚СЃСЏ СЃР»СѓС‡Р°Р№РЅС‹Рј РѕР±СЂР°Р·РѕРј :)
         sale[i] = rand() % 50 + 1;
 
     printf("\n /-------------/Cashbox/-------------/\n");
     printf("\n Welcome to the Cashbox!Let's start scanning barcodes.\n\n ATTENTION! Be careful! Barcode must be from 0101 to 0162! ");
     printf("This Cashbox cannot scan other barcodes!\n Enter \"0000\" to complete the scan and .\n Products:\n ");
 
-    do                                                                       // Работа кассового аппарата до ввода 0000
+    do                                                                       // Р Р°Р±РѕС‚Р° РєР°СЃСЃРѕРІРѕРіРѕ Р°РїРїР°СЂР°С‚Р° РґРѕ РІРІРѕРґР° 0000
     {
-        barcode_number = ScanBarcode(barcode, check_barcode, count_product); // Сканирование штрих-кода
-        if ((barcode_number != -1) && (barcode_number != 62))                // Если штрих-код верный, то выпишем описание товара
+        barcode_number = ScanBarcode(barcode, check_barcode, count_product); // РЎРєР°РЅРёСЂРѕРІР°РЅРёРµ С€С‚СЂРёС…-РєРѕРґР°
+        if ((barcode_number != -1) && (barcode_number != 62))                // Р•СЃР»Рё С€С‚СЂРёС…-РєРѕРґ РІРµСЂРЅС‹Р№, С‚Рѕ РІС‹РїРёС€РµРј РѕРїРёСЃР°РЅРёРµ С‚РѕРІР°СЂР°
         {
             DescriptionOfProduct(barcode_number, barcode, db, price, sale);
-            for (i = 0; i < count_product; i++)                              // Проверка: Был ли такой товар ранее
-                if (check_barcode[i][0] == barcode_number)                   // Если был, ставим флаг и увеличиваем его количество
-                {                                                            // по номеру в БД чека
+            for (i = 0; i < count_product; i++)                              // РџСЂРѕРІРµСЂРєР°: Р‘С‹Р» Р»Рё С‚Р°РєРѕР№ С‚РѕРІР°СЂ СЂР°РЅРµРµ
+                if (check_barcode[i][0] == barcode_number)                   // Р•СЃР»Рё Р±С‹Р», СЃС‚Р°РІРёРј С„Р»Р°Рі Рё СѓРІРµР»РёС‡РёРІР°РµРј РµРіРѕ РєРѕР»РёС‡РµСЃС‚РІРѕ
+                {                                                            // РїРѕ РЅРѕРјРµСЂСѓ РІ Р‘Р” С‡РµРєР°
                     f = 1;
                     check_barcode[i][1]++;
                 }
-            if (f == 0) count_product++;                                     // Если не было товара, то увеличиваем количество
-            f = 0;                                                           // товаров для БД чека
+            if (f == 0) count_product++;                                     // Р•СЃР»Рё РЅРµ Р±С‹Р»Рѕ С‚РѕРІР°СЂР°, С‚Рѕ СѓРІРµР»РёС‡РёРІР°РµРј РєРѕР»РёС‡РµСЃС‚РІРѕ
+            f = 0;                                                           // С‚РѕРІР°СЂРѕРІ РґР»СЏ Р‘Р” С‡РµРєР°
         }
         if (barcode_number == -1) printf(" Barcode must be from 0101 to 0162! It's not our product :)\n ");
-    } while (barcode_number != 62);                                          // Проверка на ввода 62 "товара" - т.е. на 0000
+    } while (barcode_number != 62);                                          // РџСЂРѕРІРµСЂРєР° РЅР° РІРІРѕРґР° 62 "С‚РѕРІР°СЂР°" - С‚.Рµ. РЅР° 0000
 
-    cost = AllCost(check_barcode, price, count_product);                     // Высчитываем чистую сумму
-    total = TotalCost(check_barcode, price, sale, count_product, cost);      // Высчитываем общую сумму со скидками
-    all_sale = (1.0 - (float)total / (float)cost) * 100.0;                   // Высчитываем общую скидку
-    OutputCheck(db, price, check_barcode, sale, count_product, cost, all_sale, total);   // Формируем чек
+    cost = AllCost(check_barcode, price, count_product);                     // Р’С‹СЃС‡РёС‚С‹РІР°РµРј С‡РёСЃС‚СѓСЋ СЃСѓРјРјСѓ
+    total = TotalCost(check_barcode, price, sale, count_product, cost);      // Р’С‹СЃС‡РёС‚С‹РІР°РµРј РѕР±С‰СѓСЋ СЃСѓРјРјСѓ СЃРѕ СЃРєРёРґРєР°РјРё
+    all_sale = (1.0 - (float)total / (float)cost) * 100.0;                   // Р’С‹СЃС‡РёС‚С‹РІР°РµРј РѕР±С‰СѓСЋ СЃРєРёРґРєСѓ
+    OutputCheck(db, price, check_barcode, sale, count_product, cost, all_sale, total);   // Р¤РѕСЂРјРёСЂСѓРµРј С‡РµРє
 }
