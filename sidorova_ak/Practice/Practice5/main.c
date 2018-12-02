@@ -1,5 +1,21 @@
 #include <stdio.h>
 
+void InputArray(float array[], int n)
+{
+    int i = 0;
+
+    for (i; i < n; i++)
+        scanf("%f", &array[i]);
+}
+
+void OutputArray(float array[], int n)
+{
+    int i = 0;
+
+    for (i; i < n; i++)
+        printf("%f ", array[i]);
+}
+
 void Swap(float a, float b)
 {
     float tmp;
@@ -67,5 +83,44 @@ void BubbleSort(float array[], int n, char sort)
 
 void CountingSort(float array[], int n, char sort)
 {
+    int i = 0, j = 0, index = 0, min, max;
+    int count[100] = { 0 };
 
+    min = max = array[0];
+
+    for (i; i < n; i++)
+        if ((array[i] - (int)array[i]) != 0)
+        {
+            printf("It isn't Z!");
+            return;
+        }
+
+    for (i = 0; i < n; i++)
+    {
+        if (array[i] < min) 
+            min = array[i];
+        if (array[i] > max)
+            max = array[i];
+    }
+
+    for (i = 0; i < n; i++)
+        count[(int)array[i] - (int)min]++;
+
+    for (i = 0; i < (max - min); i++)
+        for (j; j < count[i]; j++)
+            array[index++] = i;
+
+}
+
+void main()
+{
+    float array[100];
+    int n;
+    char sort;
+
+    scanf("%d", &n);
+
+    InputArray(array, n);
+    CountingSort(array, n, 'a');
+    OutputArray(array, n);
 }
