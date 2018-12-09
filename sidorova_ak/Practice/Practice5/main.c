@@ -175,6 +175,23 @@ void MergeSort(float array[], int first, int last, int sort)
     Merge(array, first, midIndex, last);
 }
 
+void TypeSort(int tSort, int sort)
+{
+    do
+    {
+        printf(" Choose the type of sorting, please:\n 1. BubbleSort.\n 2. InsertionSort\n ");
+        printf("3. SelectionSort\n 4. CountingSort\n 5. QuickSort\n 6. MergeSort\n ");
+        printf("Enter only the number of sorting (If you want to close the program, enter 0 (zero)): ");
+        scanf("%d", &tSort);
+    } while ((tSort < 0) || (tSort > 6));
+
+    do
+    {
+        printf("Enter '0' (zero) for sorting in ascending order or '1' (one) for sorting in descending order:");
+        scanf("%d", &sort);
+    } while ((sort != 0) && (sort != 1));
+}
+
 void main()
 {
     float array[100];
