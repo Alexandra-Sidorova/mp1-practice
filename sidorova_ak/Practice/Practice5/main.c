@@ -65,7 +65,7 @@ void Merge(float array[], int first, int midIndex, int last)
         array[step] = tmp[step - first];
 }
 
-void SelectionSort(float array[], int n, int sort)  //
+void SelectionSort(float array[], int n) 
 {
     int i = 0, j, minIndex;
     float key;
@@ -77,22 +77,12 @@ void SelectionSort(float array[], int n, int sort)  //
 
         for (j = i + 1; j < n; j++)
         {
-            if (sort == 0)               // По возрастанию
+            if (array[j] < key)
             {
-                if (array[j] < key)
-                {
-                    key = array[j];
-                    minIndex = j;
-                }
+                key = array[j];
+                minIndex = j;
             }
-            else                          // По убыванию
-            {
-                if (array[j] > key)
-                {
-                    key = array[j];
-                    minIndex = j;
-                }
-            }
+           
         }
 
         array[minIndex] = array[i];
@@ -100,7 +90,7 @@ void SelectionSort(float array[], int n, int sort)  //
     }
 }
 
-void InsertionSort(float array[], int n, int sort)
+void InsertionSort(float array[], int n)
 {
     int i = 1, j;
     float tmp;
@@ -110,53 +100,27 @@ void InsertionSort(float array[], int n, int sort)
         tmp = array[i];
         j = i - 1;
 
-        if (sort == 0)                               // По возрастанию
+        while ((j >= 0) && (array[j] > tmp))
         {
-            while ((j >= 0) && (array[j] > tmp))
-            {
-                Swap(&array[j + 1], &array[j]);
-                j--;
-            }
-        }
-        else                                          // По убыванию
-        {
-            while ((j >= 0) && (array[j] < tmp))
-            {
-                Swap(&array[j + 1], &array[j]);
-                j--;
-            }
+            Swap(&array[j + 1], &array[j]);
+            j--;
         }
     }
 }
 
-void BubbleSort(float array[], int n, int sort)
+void BubbleSort(float array[], int n)
 {
     int i = 0, j;
-    clock_t start, finish;
-
-    start = clock();
 
     for (i; i < n; i++)
         for (j = n - 1; j > i; j--)
         {
-            if (sort == 0)                      // По возрастанию
-            {
-                if (array[j - 1] > array[j])
-                Swap(&array[j - 1], &array[j]); 
-            }
-            else                                // По убыванию
-            {
-                if (array[j - 1] < array[j])
-                    Swap(&array[j - 1], &array[j]);
-            }
+            if (array[j - 1] > array[j])
+            Swap(&array[j - 1], &array[j]); 
         }
-            
-
-    finish = clock() - start;
-    printf("Time: %lfsec\n", ((double)finish / CLOCKS_PER_SEC));
 }
 
-void CountingSort(float array[], int n, int sort)
+void CountingSort(float array[], int n)
 {
     int i = 0, j = 0, index = 0, min, max;
     int count[100] = { 0 };
@@ -186,7 +150,7 @@ void CountingSort(float array[], int n, int sort)
             array[index++] = i;
 }
 
-void QuickSort(float array[], int first, int last, int sort)
+void QuickSort(float array[], int first, int last)
 {
     int midIndex, i = first, j = last;
 
@@ -195,12 +159,12 @@ void QuickSort(float array[], int first, int last, int sort)
     QuickSplit(array, &i, &j, array[midIndex]);
 
     if (j > first) 
-        QuickSort(array, first, j, sort);
+        QuickSort(array, first, j);
     if (i < last)
-        QuickSort(array, i, last, sort);
+        QuickSort(array, i, last);
 }
 
-void MergeSort(float array[], int first, int last, int sort)
+void MergeSort(float array[], int first, int last)
 {
     int midIndex;
     midIndex = (last + first) / 2;
@@ -208,37 +172,31 @@ void MergeSort(float array[], int first, int last, int sort)
     if (first >= last)
         return;
 
-    MergeSort(array, first, midIndex, sort);
-    MergeSort(array, midIndex + 1, last, sort);
+    MergeSort(array, first, midIndex);
+    MergeSort(array, midIndex + 1, last);
     Merge(array, first, midIndex, last);
 }
 
-void TypeSort(int *tSort, int *sort)
+void TypeSort(int *tSort)
 {
     do
     {
         printf(" Choose the type of sorting, please:\n 1. BubbleSort.\n 2. InsertionSort\n "
                "3. SelectionSort\n 4. CountingSort\n 5. QuickSort\n 6. MergeSort\n "
                "Enter only the number of sorting (If you want to close the program, enter 0 (zero)): ");
-        scanf("%d", tSort);
+        scanf("%d", &tSort);
     } while ((*tSort < 0) || (*tSort > 6));
-
-    do
-    {
-        printf(" Enter '0' (zero) for sorting in ascending order or '1' (one) for sorting in descending order:");
-        scanf("%d", sort);
-    } while ((*sort != 0) && (*sort != 1));
 }
 
 void main()
 {
     float array[100];
-    int n, tSort = 0, sort = 0;
+    int n, tSort = 0;
     
     scanf("%d", &n);
-    TypeSort(&tSort, &sort);
+    TypeSort(&tSort);
 
     InputArray(array, n);
-    InsertionSort(array, n, sort);
+    InsertionSort(array, n);
     OutputArray(array, n);
 }
