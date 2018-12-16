@@ -1,26 +1,23 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <windows.h>
 
-void InputArray(float array[], int n)
+#define MAX_COUNT_OF_FILES 100
+#define SIZE_OF_BUFFER 2048
+
+void Swap_Int(int *a, int *b)
 {
-    int i = 0;
+    int tmp;
 
-    for (i; i < n; i++)
-        scanf("%f", &array[i]);
+    tmp = *a;
+    *a = *b;
+    *b = tmp;
 }
 
-void OutputArray(float array[], int n)
+void Swap_ULONGLONG(ULONGLONG *a, ULONGLONG *b)
 {
-    int i = 0;
-
-    for (i; i < n; i++)
-        printf("%.2f ", array[i]);
-}
-
-void Swap(float *a, float *b)
-{
-    float tmp;
+    ULONGLONG tmp;
 
     tmp = *a;
     *a = *b;
@@ -38,7 +35,6 @@ void QuickSplit(float array[], int *i, int *j, int mid)
 
         if (*i <= *j)
         {
-
             Swap(&(array[*i]), &(array[*j]));
 
             (*i)++;
@@ -65,103 +61,137 @@ void Merge(float array[], int first, int midIndex, int last)
         array[step] = tmp[step - first];
 }
 
-void SelectionSort(float array[], int n) 
+void SelectionSort(ULONGLONG *fileSize, int *filesNewIndex, int N)     //COMPLETE
 {
-    int i = 0, j, minIndex;
-    float key;
+    int i, j, keyIndex, keyNewIndex;
+    ULONGLONG *sizes, key;
 
-    for (i; i < n; i++)
+    sizes = (ULONGLONG*)malloc(N * sizeof(ULONGLONG));
+
+    for (i = 0; i < N; i++)
+        sizes[i] = fileSize[i];
+
+    for (i = 0; i < N; i++)
     {
-        key = array[i];
-        minIndex = i;
+        key = sizes[i];
+        keyIndex = i;
+        keyNewIndex = filesNewIndex[i];
 
-        for (j = i + 1; j < n; j++)
+        for (j = i + 1; j < N; j++)
         {
-            if (array[j] < key)
+            if (sizes[j] < key)
             {
-                key = array[j];
-                minIndex = j;
+                key = sizes[j];
+                keyIndex = j;
             }
            
         }
 
-        array[minIndex] = array[i];
-        array[i] = key;
+        Swap_ULONGLONG(&sizes[keyIndex], &sizes[i]);
+        Swap_Int(&filesNewIndex[i], &filesNewIndex[keyIndex]);
     }
+
+    free(sizes);
 }
 
-void InsertionSort(float array[], int n)
+void InsertionSort(ULONGLONG *fileSize, int *filesNewIndex, int N) //COMPLETE
 {
-    int i = 1, j;
-    float tmp;
+    int i, j;
+    ULONGLONG *sizes, tmp;
 
-    for (i; i < n; i++)
+    sizes = (ULONGLONG*)malloc(N * sizeof(ULONGLONG));
+
+    for (i = 0; i < N; i++)
+        sizes[i] = fileSize[i];
+
+    for (i = 1; i < N; i++)
     {
-        tmp = array[i];
+        tmp = sizes[i];
         j = i - 1;
 
-        while ((j >= 0) && (array[j] > tmp))
+        while ((j >= 0) && (sizes[j] > tmp))
         {
-            Swap(&array[j + 1], &array[j]);
+            Swap_ULONGLONG(&sizes[j + 1], &sizes[j]);
+            Swap_Int(&filesNewIndex[j + 1], &filesNewIndex[j]);
             j--;
         }
     }
+
+    free(sizes);
 }
 
-void BubbleSort(float array[], int n)
+void BubbleSort(ULONGLONG *fileSize, int *filesNewIndex, int N)    //COMPLETE
 {
     int i = 0, j;
+    ULONGLONG *sizes, tmp;
 
-    for (i; i < n; i++)
-        for (j = n - 1; j > i; j--)
+    sizes = (ULONGLONG*)malloc(N * sizeof(ULONGLONG));
+
+    for (i; i < N; i++)
+        sizes[i] = fileSize[i];
+
+
+    for (i = 0; i < N; i++)
+        for (j = N - 1; j > i; j--)
         {
-            if (array[j - 1] > array[j])
-            Swap(&array[j - 1], &array[j]); 
+            if (sizes[j - 1] > sizes[j])
+            {
+                Swap_ULONGLONG(&sizes[j - 1], &sizes[j]);
+                Swap_Int(&filesNewIndex[j - 1], &filesNewIndex[j]);
+
+            }
         }
+    free(sizes);
 }
 
-void CountingSort(float array[], int n)
+void CountingSort(ULONGLONG *fileSize, int *filesNewIndex, int N) //COMPLETE
 {
-    int i = 0, j = 0, index = 0, min, max;
-    int count[100] = { 0 };
+    int i = 0, j = 0, index = 0;
+    int *fileIndex;
+    long long *count, min, max;
 
-    min = max = array[0];
+    min = max = fileSize[0];
 
-    for (i; i < n; i++)
-        if ((array[i] - (int)array[i]) != 0)
-        {
-            printf("It isn't integer!");
-            return;
-        }
-
-    for (i = 0; i < n; i++)
+    for (i = 0; i < N; i++)
     {
-        if (array[i] < min)
-            min = array[i];
-        if (array[i] > max)
-            max = array[i];
+        if (fileSize[i] < min)
+            min = fileSize[i];
+        if (fileSize[i] > max)
+            max = fileSize[i];
     }
 
-    for (i = 0; i < n; i++)
-        count[(int)array[i] - (int)min]++;
+    count = (long long*)malloc((max - min + 1) * sizeof(long long));
+    fileIndex = (int*)malloc((max - min + 1) * sizeof(int));
 
-    for (i = 0; i < (max - min); i++)
-        for (j; j < count[i]; j++)
-            array[index++] = i;
+    for (i = 0; i < (max - min + 1); i++)
+        count[i] = fileIndex[i] = 0;
+
+    for (i = 0; i < N; i++)
+    {
+        count[(int)fileSize[i] - (int)min]++;
+        fileIndex[(int)fileSize[i] - (int)min] = filesNewIndex[i];
+    }
+
+    for (i = 0; i < (max - min + 1); i++)
+        for (j = 0; j < count[i]; j++)
+            filesNewIndex[index++] = fileIndex[i];
+
+    free(fileIndex);
+    free(count);
 }
 
-void QuickSort(float array[], int first, int last)
+void QuickSort(ULONGLONG *fileSize, int first, int last)
 {
     int midIndex, i = first, j = last;
 
     midIndex = (first + last) / 2;
 
-    QuickSplit(array, &i, &j, array[midIndex]);
+    QuickSplit(fileSize, &i, &j, fileSize[midIndex]);
 
     if (j > first) 
-        QuickSort(array, first, j);
+        QuickSort(fileSize, first, j);
     if (i < last)
-        QuickSort(array, i, last);
+        QuickSort(fileSize, i, last);
 }
 
 void MergeSort(float array[], int first, int last)
@@ -181,22 +211,121 @@ void TypeSort(int *tSort)
 {
     do
     {
-        printf(" Choose the type of sorting, please:\n 1. BubbleSort.\n 2. InsertionSort\n "
+        printf("\n Choose the type of sorting, please:\n 1. BubbleSort.\n 2. InsertionSort\n "
                "3. SelectionSort\n 4. CountingSort\n 5. QuickSort\n 6. MergeSort\n "
                "Enter only the number of sorting (If you want to close the program, enter 0 (zero)): ");
-        scanf("%d", &tSort);
+        scanf("%d", tSort);
     } while ((*tSort < 0) || (*tSort > 6));
+}
+
+int ListDirectoryContents(const wchar_t *sDir, wchar_t **filesName, ULONGLONG *filesSize)
+{
+    WIN32_FIND_DATA fdFile;
+    HANDLE hFind = NULL;
+    wchar_t *sPath;
+    int count = 0;
+
+    sPath = (wchar_t*)malloc(SIZE_OF_BUFFER * sizeof(wchar_t));
+
+    wsprintf(sPath, L"%s\\*.*", sDir);
+    if ((hFind = FindFirstFile(sPath, &fdFile)) == INVALID_HANDLE_VALUE)
+    {
+        wprintf(L"Path not found: [%s]\n", sDir);
+        return -1;
+    }
+
+    do
+    {
+        if (wcscmp(fdFile.cFileName, L".") != 0 && wcscmp(fdFile.cFileName, L"..") != 0)
+        {
+            ULONGLONG fileSize = fdFile.nFileSizeHigh;
+            fileSize <<= sizeof(fdFile.nFileSizeHigh) * 8;
+            fileSize |= fdFile.nFileSizeLow;
+            filesSize[count] = fileSize;
+
+            filesName[count] = (wchar_t*)malloc(SIZE_OF_BUFFER * sizeof(wchar_t));
+            wsprintf(sPath, L"%s\\%s", sDir, fdFile.cFileName);
+            wsprintf(filesName[count++], L"%s", sPath);
+        }
+    } while (FindNextFile(hFind, &fdFile));
+    FindClose(hFind);
+    return count;
+}
+
+void InputDirectory(wchar_t **sDir)                     // Ввод пути
+{
+    char *inputString;
+
+    *sDir = (wchar_t*)malloc(SIZE_OF_BUFFER * sizeof(wchar_t));
+    inputString = (char*)malloc(SIZE_OF_BUFFER * sizeof(char));
+
+    fgets(inputString, SIZE_OF_BUFFER, stdin);
+    inputString[strlen(inputString) - 1] = '\0';        // Избавляемся от перевода строки
+
+    swprintf(*sDir, SIZE_OF_BUFFER, L"%hs", inputString);
+}
+
+void OutputDirectory(wchar_t **filesName, ULONGLONG *filesSize, int *filesNewIndex, int N)
+{
+    int i;
+
+    printf("\n Folder contents:\n");
+
+    for (i = 0; i < N; i++)
+        wprintf(L"%d. File: %s Size: %lld\n", i + 1, filesName[filesNewIndex[i]], filesSize[filesNewIndex[i]]);
 }
 
 void main()
 {
-    float array[100];
-    int n, tSort = 0;
-    
-    scanf("%d", &n);
-    TypeSort(&tSort);
+    wchar_t *inputString, **filesName;
+    ULONGLONG *filesSize;
+    int *filesIndex, *filesNewIndex;
+    int typeOfSort = 0, count = 0, i = 0;
 
-    InputArray(array, n);
-    InsertionSort(array, n);
-    OutputArray(array, n);
+    filesName = (wchar_t**)malloc(MAX_COUNT_OF_FILES * sizeof(wchar_t*));
+    filesSize = (ULONGLONG*)malloc(MAX_COUNT_OF_FILES * sizeof(ULONGLONG));
+
+    printf("\n ###################### \"File manager\" ######################\n");
+    printf("\n Enter the path to the folder in which you want to sort the files: ");
+
+    InputDirectory(&inputString);
+    count = ListDirectoryContents(inputString, filesName, filesSize);
+    
+    if (count == -1) return;
+
+    filesIndex = filesNewIndex = (int*)malloc(count * sizeof(int));
+    for (i = 0; i < count; i++)
+        filesIndex[i] = filesNewIndex[i] = i;
+
+    OutputDirectory(filesName, filesSize, filesIndex, count);
+    
+    do
+    {
+        TypeSort(&typeOfSort);
+        printf("\n Starting...\n Type of sort - %d. Count of files - %d.\n", typeOfSort, count);
+      
+        switch (typeOfSort)
+        {
+        case 1:
+            BubbleSort(filesSize, filesNewIndex, count);
+            break;
+        case 2:
+            InsertionSort(filesSize, filesNewIndex, count);
+            break;
+        case 3:
+            SelectionSort(filesSize, filesNewIndex, count);
+            break;
+        case 4:
+            CountingSort(filesSize, filesNewIndex, count);
+            break;
+        }
+
+        OutputDirectory(filesName, filesSize, filesNewIndex, count);   
+
+        for (i = 0; i < count; i++)         // Возвращение прежних индексов для новой сортировки
+            filesNewIndex[i] = i;
+
+    } while (typeOfSort != 0);
+
+
 }
