@@ -24,18 +24,19 @@ void Swap_ULONGLONG(ULONGLONG *a, ULONGLONG *b)
     *b = tmp;
 }
 
-void QuickSplit(float array[], int *i, int *j, int mid)
+void QuickSplit(ULONGLONG *fileSize, int *i, int *j, int mid, int *filesNewIndex)
 {
     do 
     {
-        while (array[*i] < mid)
+        while (fileSize[*i] < mid)
             (*i)++;
-        while (array[*j] > mid)
+        while (fileSize[*j] > mid)
             (*j)--;
 
         if (*i <= *j)
         {
-            Swap(&(array[*i]), &(array[*j]));
+            Swap_ULONGLONG(&(fileSize[*i]), &(fileSize[*j]));
+            Swap_Int(&(filesNewIndex[*i]), &(filesNewIndex[*j]));
 
             (*i)++;
             (*j)--;
@@ -43,25 +44,35 @@ void QuickSplit(float array[], int *i, int *j, int mid)
     } while (*i <= *j);
 }
 
-void Merge(float array[], int first, int midIndex, int last)
+void Merge(ULONGLONG *fileSize, int *filesNewIndex, int first, int midIndex, int last)
 {
     int i, j, step;
-    float *tmp = (float*)malloc((last - first + 1) * sizeof(float));
+    ULONGLONG *tmp = (ULONGLONG*)malloc((last - first + 1) * sizeof(ULONGLONG));
+    int *tmpIndex = (int*)malloc((last - first + 1) * sizeof(int));
 
     i = first;
     j = midIndex + 1;
 
     for (step = 0; step < last - first + 1; step++)
-        if ((j > last) || ((i <= midIndex) && (array[i] < array[j])))
-            tmp[step] = array[i++];
+        if ((j > last) || ((i <= midIndex) && (fileSize[i] < fileSize[j])))
+        {
+            tmp[step] = fileSize[i];
+            tmpIndex[step] = filesNewIndex[i++];
+        }
         else
-            tmp[step] = array[j++];
+        {
+            tmp[step] = fileSize[j];
+            tmpIndex[step] = filesNewIndex[j++];
+        }
 
     for (step = first; step < last + 1; step++)
-        array[step] = tmp[step - first];
+    {
+        fileSize[step] = tmp[step - first];
+        filesNewIndex[step] = tmpIndex[step - first];
+    }
 }
 
-void SelectionSort(ULONGLONG *fileSize, int *filesNewIndex, int N)     //COMPLETE
+void SelectionSort(ULONGLONG *fileSize, int *filesNewIndex, int N)     
 {
     int i, j, keyIndex, keyNewIndex;
     ULONGLONG *sizes, key;
@@ -94,7 +105,7 @@ void SelectionSort(ULONGLONG *fileSize, int *filesNewIndex, int N)     //COMPLET
     free(sizes);
 }
 
-void InsertionSort(ULONGLONG *fileSize, int *filesNewIndex, int N) //COMPLETE
+void InsertionSort(ULONGLONG *fileSize, int *filesNewIndex, int N)
 {
     int i, j;
     ULONGLONG *sizes, tmp;
@@ -120,7 +131,7 @@ void InsertionSort(ULONGLONG *fileSize, int *filesNewIndex, int N) //COMPLETE
     free(sizes);
 }
 
-void BubbleSort(ULONGLONG *fileSize, int *filesNewIndex, int N)    //COMPLETE
+void BubbleSort(ULONGLONG *fileSize, int *filesNewIndex, int N)    
 {
     int i = 0, j;
     ULONGLONG *sizes, tmp;
@@ -138,13 +149,12 @@ void BubbleSort(ULONGLONG *fileSize, int *filesNewIndex, int N)    //COMPLETE
             {
                 Swap_ULONGLONG(&sizes[j - 1], &sizes[j]);
                 Swap_Int(&filesNewIndex[j - 1], &filesNewIndex[j]);
-
             }
         }
     free(sizes);
 }
 
-void CountingSort(ULONGLONG *fileSize, int *filesNewIndex, int N) //COMPLETE
+void CountingSort(ULONGLONG *fileSize, int *filesNewIndex, int N) 
 {
     int i = 0, j = 0, index = 0;
     int *fileIndex;
@@ -180,21 +190,21 @@ void CountingSort(ULONGLONG *fileSize, int *filesNewIndex, int N) //COMPLETE
     free(count);
 }
 
-void QuickSort(ULONGLONG *fileSize, int first, int last)
+void QuickSort(ULONGLONG *fileSize, int *filesNewIndex, int first, int last)         
 {
     int midIndex, i = first, j = last;
 
     midIndex = (first + last) / 2;
 
-    QuickSplit(fileSize, &i, &j, fileSize[midIndex]);
+    QuickSplit(fileSize, &i, &j, fileSize[midIndex], filesNewIndex);
 
     if (j > first) 
-        QuickSort(fileSize, first, j);
+        QuickSort(fileSize, filesNewIndex, first, j);
     if (i < last)
-        QuickSort(fileSize, i, last);
+        QuickSort(fileSize, filesNewIndex, i, last);
 }
 
-void MergeSort(float array[], int first, int last)
+void MergeSort(ULONGLONG *fileSize, int *filesNewIndex, int first, int last)
 {
     int midIndex;
     midIndex = (last + first) / 2;
@@ -202,16 +212,16 @@ void MergeSort(float array[], int first, int last)
     if (first >= last)
         return;
 
-    MergeSort(array, first, midIndex);
-    MergeSort(array, midIndex + 1, last);
-    Merge(array, first, midIndex, last);
+    MergeSort(fileSize, filesNewIndex, first, midIndex);
+    MergeSort(fileSize, filesNewIndex, midIndex + 1, last);
+    Merge(fileSize, filesNewIndex, first, midIndex, last);
 }
 
 void TypeSort(int *tSort)
 {
     do
     {
-        printf("\n Choose the type of sorting, please:\n 1. BubbleSort.\n 2. InsertionSort\n "
+        printf("\n Choose the type of sorting, please:\n 1. BubbleSort\n 2. InsertionSort\n "
                "3. SelectionSort\n 4. CountingSort\n 5. QuickSort\n 6. MergeSort\n "
                "Enter only the number of sorting (If you want to close the program, enter 0 (zero)): ");
         scanf("%d", tSort);
@@ -272,13 +282,14 @@ void OutputDirectory(wchar_t **filesName, ULONGLONG *filesSize, int *filesNewInd
     printf("\n Folder contents:\n");
 
     for (i = 0; i < N; i++)
-        wprintf(L"%d. File: %s Size: %lld\n", i + 1, filesName[filesNewIndex[i]], filesSize[filesNewIndex[i]]);
+        wprintf(L" %d. File: %s Size: %lld\n", i + 1, filesName[filesNewIndex[i]], filesSize[filesNewIndex[i]]);
 }
 
 void main()
 {
     wchar_t *inputString, **filesName;
-    ULONGLONG *filesSize;
+    ULONGLONG *filesSize, *sizesQM;
+    clock_t start, finish;
     int *filesIndex, *filesNewIndex;
     int typeOfSort = 0, count = 0, i = 0;
 
@@ -304,6 +315,7 @@ void main()
         TypeSort(&typeOfSort);
         printf("\n Starting...\n Type of sort - %d. Count of files - %d.\n", typeOfSort, count);
       
+        start = clock();
         switch (typeOfSort)
         {
         case 1:
@@ -318,14 +330,33 @@ void main()
         case 4:
             CountingSort(filesSize, filesNewIndex, count);
             break;
-        }
+        case 5:
+            sizesQM = (ULONGLONG*)malloc(count * sizeof(ULONGLONG));
+            for (i = 0; i < count; i++)
+                sizesQM[i] = filesSize[i];
 
-        OutputDirectory(filesName, filesSize, filesNewIndex, count);   
+            QuickSort(sizesQM, filesNewIndex, 0, (count - 1));
+            break;
+        case 6:
+            sizesQM = (ULONGLONG*)malloc(count * sizeof(ULONGLONG));
+            for (i = 0; i < count; i++)
+                sizesQM[i] = filesSize[i];
+
+            QuickSort(sizesQM, filesNewIndex, 0, (count - 1));
+            break;
+        }
+        finish = clock();
+
+        OutputDirectory(filesName, filesSize, filesNewIndex, count);
+        printf("\n Time: %lf sec.", (double)(finish - start) / CLOCKS_PER_SEC);
 
         for (i = 0; i < count; i++)         // Возвращение прежних индексов для новой сортировки
-            filesNewIndex[i] = i;
+            filesNewIndex[i] = filesIndex[i];
+
+        start = finish = 0;
+        free(sizesQM);
 
     } while (typeOfSort != 0);
 
-
+    //C:\Program Files\7-Zip
 }
