@@ -20,14 +20,19 @@ void InputDirectory(wchar_t **sDir)
     swprintf(*sDir, SIZE_OF_BUFFER, L"%hs", inputString);
 }
 
-void OutputDirectory(wchar_t **filesName, ULONGLONG *filesSize, unsigned long *filesIndex, unsigned long N)
+void OutputDirectory(wchar_t **filesName, ULONGLONG *filesSize, unsigned long *filesIndex, unsigned long N,
+    int ascDescType)
 {
-    unsigned long i = 0;
+    unsigned long i;
 
     printf("\n Folder contents:\n");
 
-    for (i; i < N; i++)
-        wprintf(L" %d. File: %s Size: %lld bytes\n", i + 1, filesName[filesIndex[i]], filesSize[filesIndex[i]]);
+    if (ascDescType == 1)
+        for (i = 0; i < N; i++)
+            wprintf(L" %d. File: %s Size: %lld bytes\n", i + 1, filesName[filesIndex[i]], filesSize[filesIndex[i]]);
+    else
+        for (i = N; i > 0; i--)
+            wprintf(L" %d. File: %s Size: %lld bytes\n", N - i + 1, filesName[filesIndex[i - 1]], filesSize[filesIndex[i - 1]]);
 }
 
 int ListDirectoryContents(const wchar_t *sDir, wchar_t **filesName, ULONGLONG *filesSize)
@@ -65,7 +70,7 @@ int ListDirectoryContents(const wchar_t *sDir, wchar_t **filesName, ULONGLONG *f
     return count;
 }
 
-void TypeSort(int *tSort)
+void TypeSort(int *tSort, int *ascDescTSort)
 {
     do
     {
@@ -75,6 +80,12 @@ void TypeSort(int *tSort)
             "(If you want to close the program, enter 0 (zero)) : ");
         scanf("%d", tSort);
     } while ((*tSort < 0) || (*tSort > 6));
+
+    do
+    {
+        printf("\n Choose the type of sorting:\n 1. Ascending\n 2. Descending\n Enter only the number of sorting: ");
+        scanf("%d", ascDescTSort);
+    } while ((*ascDescTSort < 1) || (*ascDescTSort > 2));
 }
 
 void Swap_Ulong(unsigned long *a, unsigned long *b)
@@ -276,7 +287,7 @@ void main()
     clock_t start, finish;
     unsigned long *filesIndex;
     unsigned long count = -1, i = 0;
-    int typeOfSort = 0, f = 0;
+    int typeOfSort = 0, ascDescType = 1, f = 0;
 
     filesName = (wchar_t**)malloc(MAX_COUNT_OF_FILES * sizeof(wchar_t*));
     filesSize = (ULONGLONG*)malloc(MAX_COUNT_OF_FILES * sizeof(ULONGLONG));
@@ -294,18 +305,20 @@ void main()
     for (i = 0; i < count; i++)
         filesIndex[i] = i;
 
-    OutputDirectory(filesName, filesSize, filesIndex, count);
+    OutputDirectory(filesName, filesSize, filesIndex, count, 1);
 
     do
     {
-        TypeSort(&typeOfSort);
+        TypeSort(&typeOfSort, &ascDescType);
         if (typeOfSort == 0) return;
 
         tmpSizes = (ULONGLONG*)malloc(count * sizeof(ULONGLONG));           // Выделение доп. памяти для
         for (i = 0; i < count; i++)                                         // сохранения и изменения размеров файлов
             tmpSizes[i] = filesSize[i];
 
-        printf("\n Starting...\n Type of sort - %d. Count of files - %d.\n", typeOfSort, count);
+        printf("\n Starting...\n Type of sort - %d.", typeOfSort);
+        if (ascDescType == 1) printf(" Ascending. Count of files - %d.\n", count);
+        else printf(" Descending. Count of files - %d.\n", count);       
 
         start = clock();
 
@@ -333,7 +346,7 @@ void main()
 
         finish = clock();
 
-        OutputDirectory(filesName, filesSize, filesIndex, count);
+        OutputDirectory(filesName, filesSize, filesIndex, count, ascDescType);
         
         printf("\n Time: %.4lf sec.\n", (double)(finish - start) / CLOCKS_PER_SEC);
 
