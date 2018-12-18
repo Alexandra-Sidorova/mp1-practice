@@ -1,4 +1,4 @@
-#include <stdio.h>
+п»ї#include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include <windows.h>
@@ -15,7 +15,7 @@ void InputDirectory(wchar_t **sDir)
     inputString = (char*)malloc(SIZE_OF_BUFFER * sizeof(char));
 
     fgets(inputString, SIZE_OF_BUFFER, stdin);
-    inputString[strlen(inputString) - 1] = '\0';                    // €збавлЯемсЯ от перевода строки в конце
+    inputString[strlen(inputString) - 1] = '\0';                    // РР·Р±Р°РІР»СЏРµРјСЃСЏ РѕС‚ РїРµСЂРµРІРѕРґР° СЃС‚СЂРѕРєРё РІ РєРѕРЅС†Рµ
 
     swprintf(*sDir, SIZE_OF_BUFFER, L"%hs", inputString);
 }
@@ -301,8 +301,8 @@ void main()
         TypeSort(&typeOfSort);
         if (typeOfSort == 0) return;
 
-        tmpSizes = (ULONGLONG*)malloc(count * sizeof(ULONGLONG));           // ‚ыделение доп. памЯти длЯ
-        for (i = 0; i < count; i++)                                         // сохранениЯ и изменениЯ размеров файлов
+        tmpSizes = (ULONGLONG*)malloc(count * sizeof(ULONGLONG));           // Р’С‹РґРµР»РµРЅРёРµ РґРѕРї. РїР°РјСЏС‚Рё РґР»СЏ
+        for (i = 0; i < count; i++)                                         // СЃРѕС…СЂР°РЅРµРЅРёСЏ Рё РёР·РјРµРЅРµРЅРёСЏ СЂР°Р·РјРµСЂРѕРІ С„Р°Р№Р»РѕРІ
             tmpSizes[i] = filesSize[i];
 
         printf("\n Starting...\n Type of sort - %d. Count of files - %d.\n", typeOfSort, count);
@@ -337,7 +337,7 @@ void main()
         
         printf("\n Time: %.4lf sec.\n", (double)(finish - start) / CLOCKS_PER_SEC);
 
-        for (i = 0; i < count; i++)         // ‚озвращение прежних индексов длЯ новой сортировки
+        for (i = 0; i < count; i++)         // Р’РѕР·РІСЂР°С‰РµРЅРёРµ РїСЂРµР¶РЅРёС… РёРЅРґРµРєСЃРѕРІ РґР»СЏ РЅРѕРІРѕР№ СЃРѕСЂС‚РёСЂРѕРІРєРё
             filesIndex[i] = i;
         start = finish = 0;
         free(tmpSizes);
