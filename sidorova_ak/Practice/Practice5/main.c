@@ -15,7 +15,7 @@ void InputDirectory(wchar_t **sDir)
     inputString = (char*)malloc(SIZE_OF_BUFFER * sizeof(char));
 
     fgets(inputString, SIZE_OF_BUFFER, stdin);
-    inputString[strlen(inputString) - 1] = '\0';                    // Избавляемся от перевода строки
+    inputString[strlen(inputString) - 1] = '\0';                    // Избавляемся от перевода строки в конце
 
     swprintf(*sDir, SIZE_OF_BUFFER, L"%hs", inputString);
 }
