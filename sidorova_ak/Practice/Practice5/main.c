@@ -184,7 +184,7 @@ void InsertionSort(ULONGLONG *filesSize, unsigned long *filesIndex, unsigned lon
         {
             filesSize[j + 1] = filesSize[j];
             filesIndex[j + 1] = filesIndex[j];
-            j = j - 1;
+            j--;
         }
 
         filesSize[j + 1] = tmp;
