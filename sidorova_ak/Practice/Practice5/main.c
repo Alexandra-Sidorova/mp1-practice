@@ -5,7 +5,6 @@
 
 #define MAX_COUNT_OF_FILES 65535
 #define SIZE_OF_BUFFER 2048
-#define MIN_REPEAT_FILES 31
 
 void InputDirectory(wchar_t **sDir)                                       
 {
@@ -106,7 +105,7 @@ void Swap_ULONGLONG(ULONGLONG *a, ULONGLONG *b)
     *b = tmp;
 }
 
-void QuickSplit(ULONGLONG *filesSize, unsigned long *i, unsigned long *j, unsigned long mid, unsigned long *filesIndex)
+void QuickSplit(ULONGLONG *filesSize, unsigned long *i, unsigned long *j, ULONGLONG mid, unsigned long *filesIndex)
 {
     do
     {
@@ -222,6 +221,7 @@ void CountingSort(ULONGLONG *filesSize, unsigned long *filesIndex, unsigned long
     unsigned long i = 0, j = 0, index = 0, diff = 0, k = 0;
     unsigned long *fileIndex;
     ULONGLONG **count, min, max;
+    int repeatCount = 0, maxRepeatCount = 0;
 
     min = max = filesSize[0];
 
@@ -233,12 +233,26 @@ void CountingSort(ULONGLONG *filesSize, unsigned long *filesIndex, unsigned long
             max = filesSize[i];
     }
 
+    for (i = 0; i < N; i++)
+    {
+        repeatCount = 0;
+
+        for (j = i + 1; j < N; j++)
+        {
+            if (filesSize[i] == filesSize[j])
+                repeatCount++;
+        }
+        
+        if (repeatCount > maxRepeatCount)
+            maxRepeatCount = repeatCount;
+    }
+
     diff = max - min + 1;
     count = (ULONGLONG**)malloc(diff * sizeof(ULONGLONG*));
     for (i = 0; i < diff; i++)
-        count[i] = (ULONGLONG*)malloc(MIN_REPEAT_FILES * sizeof(ULONGLONG));
+        count[i] = (ULONGLONG*)malloc((maxRepeatCount + 1) * sizeof(ULONGLONG));
     for (i = 0; i < diff; i++)
-        for (j = 0; j < MIN_REPEAT_FILES; j++)
+        for (j = 0; j < (maxRepeatCount + 1); j++)
             count[i][j] = 0;
 
     for (i = 0; i < N; i++)
@@ -340,7 +354,7 @@ void main()
             QuickSort(tmpSizes, filesIndex, 0, (count - 1));
             break;
         case 6:
-            QuickSort(tmpSizes, filesIndex, 0, (count - 1));
+            MergeSort(tmpSizes, filesIndex, 0, (count - 1));
             break;
         }
 
