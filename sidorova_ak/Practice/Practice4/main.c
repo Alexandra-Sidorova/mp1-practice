@@ -7,29 +7,15 @@
 int ScanBarcode(char a[][4], int check[][2], int k)               // Функция на сканирование штрих-кода
 {
     int i = 0, number = -1, f = 0;
-    char inbarcode[4];
+    char inbarcode[5];
 
-    for (i; i < 4; i++)                                           // Ввод посимвольно 
-    {
-        inbarcode[i] = getchar();
-        if (inbarcode[i] == '\n')                                 // Условие, если штрих-код меньше 4 символов (А вдруг)
-        {
-            f = 1;                                                // Для этого поставим флажок и выйдем из цикла ввода сразу
-            break;
-        }
-    }
+    scanf("%s", &(inbarcode[0]));
 
-    if (f == 1) return -1;                                        // Если меньше 4 символов, то на выход из функции
-
-    if (getchar() != '\n')                                        // Условие на проверку больше 4 символов. Если последний символ (5-ый)
-    {                                                             // не перевод строки (enter), а еще один символ
-        while (getchar() != '\n');                                // Очищение потока ввода от \n (переноса строки, т.е. enter)
-        return -1;
-    }
+    if (strlen(inbarcode) != 4) return -1;                           // Если не 4 символа, то на выход из функции
 
     for (i = 0; i < N + 1; i++)                                   // Поиск совпадений с базой данной штрих-кодов маркета по номеру в БД
     {
-        if ((inbarcode[0] == a[i][0]) && (inbarcode[1] == a[i][1]) && (inbarcode[2] == a[i][2]) && (inbarcode[3] == a[i][3]))
+        if (strncmp(inbarcode, a[i], 4) == 0)
         {
             number = i;                                           // При совпадении присваиваем номер товара в базе данных
             break;
@@ -127,7 +113,7 @@ void main()
 
     printf("\n /-------------/Cashbox/-------------/\n");
     printf("\n Welcome to the Cashbox!Let's start scanning barcodes.\n\n ATTENTION! Be careful! Barcode must be from 0101 to 0162! ");
-    printf("This Cashbox cannot scan other barcodes!\n Enter \"0000\" to complete the scan and .\n Products:\n ");
+    printf("This Cashbox cannot scan other barcodes!\n Enter \"0000\" to complete the scan and print the check.\n Products:\n ");
 
     do                                                                       // Работа кассового аппарата до ввода 0000
     {
