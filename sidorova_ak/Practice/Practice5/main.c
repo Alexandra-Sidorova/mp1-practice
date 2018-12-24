@@ -1,4 +1,4 @@
-﻿#include <stdio.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include <windows.h>
@@ -46,7 +46,7 @@ int ListDirectoryContents(const wchar_t *sDir, wchar_t **filesName, ULONGLONG *f
 
     if ((hFind = FindFirstFile(sPath, &fdFile)) == INVALID_HANDLE_VALUE)
     {
-        wprintf(L"Path not found: [%s].\n Try again: ", sDir);
+        wprintf(L" Path not found: [%s].\n Try again: ", sDir);
         return -1;
     }
 
@@ -129,27 +129,16 @@ void Merge(ULONGLONG *filesSize, unsigned long *filesIndex, unsigned long first,
 {
     unsigned long i = first, j = midIndex + 1, step;
     unsigned long *tmpIndex = (unsigned long*)malloc((last - first + 1) * sizeof(unsigned long));
-    ULONGLONG *tmp = (ULONGLONG*)malloc((last - first + 1) * sizeof(ULONGLONG));
 
     for (step = 0; step < last - first + 1; step++)
-        if ((j > last) || ((i <= midIndex) && (filesSize[i] < filesSize[j])))
-        {
-            tmp[step] = filesSize[i];
+        if ((filesIndex[j] > last) || ((filesIndex[i] <= midIndex) && (filesSize[filesIndex[i]] < filesSize[filesIndex[j]])))
             tmpIndex[step] = filesIndex[i++];
-        }
         else
-        {
-            tmp[step] = filesSize[j];
             tmpIndex[step] = filesIndex[j++];
-        }
 
     for (step = first; step < last + 1; step++)
-    {
-        filesSize[step] = tmp[step - first];
         filesIndex[step] = tmpIndex[step - first];
-    }
 
-    free(tmp);
     free(tmpIndex);
 }
 
@@ -160,11 +149,8 @@ void BubbleSort(ULONGLONG *filesSize, unsigned long *filesIndex, unsigned long N
     for (i = 0; i < N; i++)
         for (j = N - 1; j > i; j--)
         {
-            if (filesSize[j - 1] > filesSize[j])
-            {
-                Swap_ULONGLONG(&filesSize[j - 1], &filesSize[j]);
+            if (filesSize[filesIndex[j - 1]] > filesSize[filesIndex[j]])
                 Swap_Ulong(&filesIndex[j - 1], &filesIndex[j]);
-            }
         }
 }
 
@@ -175,18 +161,15 @@ void InsertionSort(ULONGLONG *filesSize, unsigned long *filesIndex, unsigned lon
 
     for (i = 1; i < N; i++)
     {
-        tmp = filesSize[i];
         tmpIndex = filesIndex[i];
         j = i - 1;
 
-        while ((j >= 0) && (filesSize[j] > tmp))
+        while ((j >= 0) && (filesSize[filesIndex[j]] > filesSize[tmpIndex]))
         {
-            filesSize[j + 1] = filesSize[j];
             filesIndex[j + 1] = filesIndex[j];
             j--;
         }
 
-        filesSize[j + 1] = tmp;
         filesIndex[j + 1] = tmpIndex;
     }
 }
@@ -198,20 +181,18 @@ void SelectionSort(ULONGLONG *filesSize, unsigned long *filesIndex, unsigned lon
 
     for (i = 0; i < N; i++)
     {
-        key = filesSize[i];
         keyIndex = i;
         keyNewIndex = filesIndex[i];
 
         for (j = i + 1; j < N; j++)
         {
-            if (filesSize[j] < key)
+            if (filesSize[filesIndex[j]] < filesSize[keyNewIndex])
             {
-                key = filesSize[j];
+                keyNewIndex = filesIndex[j];
                 keyIndex = j;
             }
         }
 
-        Swap_ULONGLONG(&filesSize[keyIndex], &filesSize[i]);
         Swap_Ulong(&filesIndex[i], &filesIndex[keyIndex]);
     }
 }
@@ -307,7 +288,7 @@ void main()
     filesSize = (ULONGLONG*)malloc(MAX_COUNT_OF_FILES * sizeof(ULONGLONG));
 
     printf("\n ###################### \"File manager \"Quick sort\"\" ######################\n");
-    printf("\n Enter the path to the folder in which you want to sort the files: ");
+    printf("\n Enter the path to the folder in which you want to sort the files (English layout only): ");
 
     while (count == -1)
     {
@@ -326,10 +307,6 @@ void main()
         TypeSort(&typeOfSort, &ascDescType);
         if (typeOfSort == 0) return;
 
-        tmpSizes = (ULONGLONG*)malloc(count * sizeof(ULONGLONG));           // Выделение доп. памяти для
-        for (i = 0; i < count; i++)                                         // сохранения и изменения размеров файлов
-            tmpSizes[i] = filesSize[i];
-
         printf("\n Starting...\n Type of sort - %d.", typeOfSort);
         if (ascDescType == 1) printf(" Ascending. Count of files - %d.\n", count);
         else printf(" Descending. Count of files - %d.\n", count);       
@@ -339,22 +316,28 @@ void main()
         switch (typeOfSort)
         {
         case 1:
-            BubbleSort(tmpSizes, filesIndex, count);
+            BubbleSort(filesSize, filesIndex, count);
             break;
         case 2:
-            InsertionSort(tmpSizes, filesIndex, count);
+            InsertionSort(filesSize, filesIndex, count);
             break;
         case 3:
-            SelectionSort(tmpSizes, filesIndex, count);
+            SelectionSort(filesSize, filesIndex, count);
             break;
         case 4:
-            CountingSort(tmpSizes, filesIndex, count);
+            CountingSort(filesSize, filesIndex, count);
             break;
         case 5:
+            tmpSizes = (ULONGLONG*)malloc(count * sizeof(ULONGLONG));           // Выделение доп. памяти для
+            for (i = 0; i < count; i++)                                         // сохранения и изменения размеров файлов
+                tmpSizes[i] = filesSize[i];
+
             QuickSort(tmpSizes, filesIndex, 0, (count - 1));
+
+            free(tmpSizes);
             break;
         case 6:
-            MergeSort(tmpSizes, filesIndex, 0, (count - 1));
+            MergeSort(filesSize, filesIndex, 0, (count - 1));
             break;
         }
 
@@ -367,6 +350,5 @@ void main()
         for (i = 0; i < count; i++)         // Возвращение прежних индексов для новой сортировки
             filesIndex[i] = i;
         start = finish = 0;
-        free(tmpSizes);
     } while (1);
 }
