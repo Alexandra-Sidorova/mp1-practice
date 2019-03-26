@@ -1,4 +1,4 @@
-﻿#ifndef __VECTOR_H_
+#ifndef __VECTOR_H_
 #define __VECTOR_H_
 
 typedef struct

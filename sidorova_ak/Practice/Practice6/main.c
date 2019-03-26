@@ -1,4 +1,4 @@
-﻿#include "vector.h"
+#include "vector.h"
 #include <stdio.h>
 
 void main()
