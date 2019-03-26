@@ -1,4 +1,4 @@
-#include "vector.h"
+п»ї#include "vector.h"
 #include <stdio.h>
 
 void main()
@@ -22,7 +22,7 @@ void main()
 	Output(c);
 	printf("\n");
 
-	// Сложение
+	// вЂ”Р»РѕР¶РµРЅРёРµ
 	printf("a + b \n");
 	res = Add(a, b);
 	Output(res);
@@ -30,7 +30,7 @@ void main()
 	res = Add(a, c);
 	Delete(res);
 
-	// Вычитание
+	// В¬С‹С‡РёС‚Р°РЅРёРµ
 	printf("a - b \n");
 	res = Sub(a, b);
 	Output(res);
@@ -38,7 +38,7 @@ void main()
 	res = Sub(a, c);
 	Delete(res);
 
-	// Скалярное произведение
+	// вЂ”РєР°Р»В¤СЂРЅРѕРµ РїСЂРѕРёР·РІРµРґРµРЅРёРµ
 	printf("a * b \n");
 	res = Product(a, b);
 	Output(res);
@@ -46,12 +46,12 @@ void main()
 	res = Product(a, c);
 	Delete(res);
 
-	// Длины
+	// Ж’Р»РёРЅС‹
 	printf("|a| = %.2f\n", Length(a));
 	printf("|b| = %.2f\n", Length(b));
 	printf("|c| = %.2f\n", Length(c));
 
-	// Углы
+	// вЂќРіР»С‹
 	printf("Corner between a and b = %.2f\n", Corner(a, b));
 	printf("Corner between a and c = %.2f\n", Corner(a, c));
 	printf("Corner between b and c = %.2f\n", Corner(b, c));

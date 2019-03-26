@@ -1,4 +1,4 @@
-#ifndef __VECTOR_H_
+п»ї#ifndef __VECTOR_H_
 #define __VECTOR_H_
 
 typedef struct
@@ -7,7 +7,7 @@ typedef struct
 	float *coord;
 } Vector;
 
-// функции
+// С„СѓРЅРєС†РёРё
 Vector Create(int size);
 Vector Value(Vector vector, float *value, int valueSize);
 Vector Equal(Vector vector);
