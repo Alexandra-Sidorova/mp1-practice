@@ -3,8 +3,8 @@
 
 typedef struct
 {
-	int size;
-	float *coord;
+    int size;
+    float *coord;
 } Vector;
 
 // Функции
