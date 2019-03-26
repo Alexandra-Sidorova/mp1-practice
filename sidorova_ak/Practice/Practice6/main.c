@@ -22,7 +22,7 @@ void main()
 	Output(c);
 	printf("\n");
 
-	// —ложение
+	// Cложение
 	printf("a + b \n");
 	res = Add(a, b);
 	Output(res);
@@ -30,7 +30,7 @@ void main()
 	res = Add(a, c);
 	Delete(res);
 
-	// ¬ычитание
+	// Вычитание
 	printf("a - b \n");
 	res = Sub(a, b);
 	Output(res);
@@ -38,7 +38,7 @@ void main()
 	res = Sub(a, c);
 	Delete(res);
 
-	// —кал¤рное произведение
+	// Скалярное произведение
 	printf("a * b \n");
 	res = Product(a, b);
 	Output(res);
@@ -46,16 +46,15 @@ void main()
 	res = Product(a, c);
 	Delete(res);
 
-	// ƒлины
+	// Длины
 	printf("|a| = %.2f\n", Length(a));
 	printf("|b| = %.2f\n", Length(b));
 	printf("|c| = %.2f\n", Length(c));
 
-	// ”глы
+	// Углы
 	printf("Corner between a and b = %.2f\n", Corner(a, b));
 	printf("Corner between a and c = %.2f\n", Corner(a, c));
 	printf("Corner between b and c = %.2f\n", Corner(b, c));
 
-	//Output(a);
-	getch();
+	getch(); // Консоль не закрывалась
 }

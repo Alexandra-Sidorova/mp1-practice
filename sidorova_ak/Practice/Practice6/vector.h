@@ -7,7 +7,7 @@ typedef struct
 	float *coord;
 } Vector;
 
-// функции
+// Функции
 Vector Create(int size);
 Vector Value(Vector vector, float *value, int valueSize);
 Vector Equal(Vector vector);
