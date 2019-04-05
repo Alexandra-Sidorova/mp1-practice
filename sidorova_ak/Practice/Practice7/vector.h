@@ -1,5 +1,5 @@
-#ifndef __VECTOR_H
-#define __VECTOR_H
+#ifndef _VECTOR_H_
+#define _VECTOR_H_
 
 #include "iostream"
 
@@ -8,44 +8,52 @@ using namespace std;
 struct Vector
 {
 private:
-	int size;
-	double *cells;
+    int size;
+    double *cells;
 public:
-	Vector();
-	Vector(Vector&);
-	Vector(int);
-	Vector(int, double*);
-	~Vector();
+    Vector();
+    Vector(Vector&);
+    Vector(int);
+    Vector(int, double*);
+    ~Vector();
 
-	void PrintVector();
+    double Lenght() const;
 
-	Vector& operator=(const Vector&);
-	Vector operator+(const Vector&);
-	Vector operator-(const Vector&);
-	Vector operator*(const Vector&);
-	Vector operator*(double);
-	Vector operator++(int);
-	Vector operator++();
-	Vector operator--(int);
-	Vector operator--();
-	Vector operator+=(const Vector&);
-	Vector operator+=(double);
-	Vector operator-=(const Vector&);
-	Vector operator-=(double);
+    Vector& operator=(const Vector&);
+    Vector operator+(const Vector&);
+    Vector operator+(double);
+    Vector operator-(const Vector&);
+    Vector operator-(double);
+    Vector operator*(const Vector&);
+    Vector operator*(double);
+    Vector operator/(double);
+    Vector operator++(int);
+    Vector operator++();
+    Vector operator--(int);
+    Vector operator--();
+    Vector operator+=(const Vector&);
+    Vector operator+=(double);
+    Vector operator-=(const Vector&);
+    Vector operator-=(double);
+    Vector operator*=(const Vector&);
+    Vector operator*=(double);
+    Vector operator/=(double);
 
-	const int& operator[](int) const;
+    double& operator[](int);
+    const double& operator[](int) const;
 
-	bool operator==(const Vector&);
-	bool operator!=(const Vector&);
-	bool operator>(const Vector&);
-	bool operator>=(const Vector&);
-	bool operator<(const Vector&);
-	bool operator<=(const Vector&);
-	 
-	double Lenght(const Vector&);
+    bool operator==(const Vector&);
+    bool operator!=(const Vector&);
+    bool operator>(const Vector&);
+    bool operator>=(const Vector&);
+    bool operator<(const Vector&);
+    bool operator<=(const Vector&);
 
-	friend istream& operator>> (istream&, Vector&); // Ввод
-	friend ostream& operator<< (ostream&, const Vector&); // Вывод
+    void* operatornew(size_t);
+    void operatordelete(void*);
+
+    friend istream& operator>> (istream&, Vector&); // Р’РІРѕРґ
+    friend ostream& operator<< (ostream&, const Vector&); // Р’С‹РІРѕРґ
 };
 
 #endif
