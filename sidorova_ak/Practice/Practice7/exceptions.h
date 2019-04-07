@@ -1,5 +1,5 @@
-#ifndef __EXCEPTIONS_H
-#define __EXCEPTIONS_H
+#ifndef _EXCEPTIONS_H_
+#define _EXCEPTIONS_H_
 #include "iostream"
 #include "string"
 
@@ -19,6 +19,3 @@ public:
 };
 
 #endif
-
-
-

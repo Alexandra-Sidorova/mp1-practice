@@ -7,7 +7,8 @@ using namespace std;
 class Matrix
 {
 private:
-	int rows, cols; // строки и столбцы
+	int rows; // строки
+	int cols; // столбцы
 	double* cells;
 public:
 	Matrix();
@@ -26,7 +27,7 @@ public:
 	const double& operator[](int) const;
 	double& operator[](int);
 
-	friend istream& operator >> (istream&, Matrix&); // Ввод
+	friend istream& operator>> (istream&, Matrix&); // Ввод
 	friend ostream& operator<< (ostream&, const Matrix&); // Вывод
 };
 

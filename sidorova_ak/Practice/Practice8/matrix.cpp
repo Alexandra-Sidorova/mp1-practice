@@ -27,10 +27,13 @@ Matrix::Matrix(int _rows, int _cols)
 
 Matrix::Matrix(int _rows, int _cols, double* _cells)
 {
+	if (*_cells == NULL)
+		throw Exception("Empty array!");
+
 	if ((_rows <= 0) || (_cols <= 0));
 		throw Exception("Not correct size of matrix!");
 
-	if ((sizeof(_cells) / sizeof(*_cells)) != (_rows * _cols))
+	if ((sizeof(_cells) / sizeof(_cells[0])) != (_rows * _cols))
 			throw Exception("Not correct size of array with data!");
 
 	rows = _rows;
@@ -130,7 +133,8 @@ Matrix Matrix::operator*(const Matrix& _factor)
 	for (int i = 0; i < rows; i++)
 		for (int j = 0; j < _factor.cols; j++)
 			for (int k = 0; k < cols; k++)
-				result.cells[i * _factor.cols + j] += (cells[i * cols + k] * _factor.cells[k * _factor.cols + i]);
+				result.cells[i * _factor.cols + j] += 
+				(cells[i * cols + k] * _factor.cells[k * _factor.cols + j]);
 		
 	return result;
 }
@@ -159,4 +163,34 @@ double& Matrix::operator[](int index)
 		throw Exception("Not correct index!");
 
 	return cells[index];
+}
+
+istream& operator>>(istream& in, Matrix& _matrix)
+{
+	for (int i = 0; i < (_matrix.rows * _matrix.cols); i++)
+		in >> _matrix.cells[i];
+
+	return in;
+}
+
+ostream& operator<<(ostream &out, const Matrix& _matrix)
+{
+	if ((_matrix.rows * _matrix.cols) == 0)
+	{
+		out << "Empty matrix.";
+		return out;
+	}
+
+	for (int i = 0; i < (_matrix.rows * _matrix.cols); i++)
+	{
+		if (i % _matrix.cols == 0)
+			out << "\n| ";
+
+		out << _matrix.cells[i] << " ";
+
+		if ((i + 1) % _matrix.cols == 0)
+			out << "|";
+	}
+
+	return out;
 }

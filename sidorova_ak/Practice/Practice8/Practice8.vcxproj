@@ -23,6 +23,7 @@
     <ClInclude Include="matrix.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="matrix.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
