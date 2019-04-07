@@ -257,7 +257,7 @@ Vector Vector::operator/=(double num)
 
 double& Vector::operator[](int index)
 {
-    if ((index < 0) && (index >= size))
+    if ((index < 0) || (index >= size))
         throw Exception("Not correct index!");
 
     return cells[index];
@@ -265,7 +265,7 @@ double& Vector::operator[](int index)
 
 const double& Vector::operator[](int index) const
 {
-    if ((index < 0) && (index >= size))
+    if ((index < 0) || (index >= size))
         throw Exception("Not correct index!");
 
     return cells[index];
