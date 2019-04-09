@@ -27,8 +27,13 @@ void main()
         cout << "v1 + v2 = " << v1 + v2 << endl;
         cout << "v1 - v2 = " << v1 - v2 << endl;
         cout << "v1 * v2 = " << v1 * v2 << endl << endl;
-        v3 *= 2;
-        cout << "v3 *= 2 : " << v3 << endl;
+        cout <<"v3 / 5 = " << v3 / 5 << endl;
+        v3 *= 10;
+        cout << "v3 *= 10 : " << v3 << endl;
+        v3 /= 2;
+        cout << "v3 /= 2 : " << v3 << endl;
+        v3 += 10;
+        cout << "v3 += 10 : " << v3 << endl;
         cout << "v3-- : " << v3-- << endl;
 
         // Посложнее пример
@@ -41,13 +46,7 @@ void main()
 
         // Условие
         cout << "v1 < v2 ? : " << (v1 < v2) << endl << endl;
-
-        // New и delete
-        Vector *test = new Vector(3);
-        cout << "New Vector test = " << *test << endl << endl;
-        (*test)++;
-        cout << "New Vector test = " << *test << endl << endl;
-        delete test;
+        cout << "v1 >= v2 ? : " << (v1 >= v2) << endl << endl;
 
         // Исключение
         cout << "v3 * v1 = "; 

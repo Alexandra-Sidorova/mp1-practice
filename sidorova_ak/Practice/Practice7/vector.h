@@ -19,7 +19,7 @@ public:
 
     double Lenght() const;
 
-    Vector& operator=(const Vector&);
+    const Vector& operator=(const Vector&);
     Vector operator+(const Vector&);
     Vector operator+(double);
     Vector operator-(const Vector&);
@@ -42,15 +42,12 @@ public:
     double& operator[](int);
     const double& operator[](int) const;
 
-    bool operator==(const Vector&);
-    bool operator!=(const Vector&);
-    bool operator>(const Vector&);
-    bool operator>=(const Vector&);
-    bool operator<(const Vector&);
-    bool operator<=(const Vector&);
-
-    void* operatornew(size_t);
-    void operatordelete(void*);
+    bool operator==(const Vector&) const;
+    bool operator!=(const Vector&) const;
+    bool operator>(const Vector&) const;
+    bool operator>=(const Vector&) const;
+    bool operator<(const Vector&) const;
+    bool operator<=(const Vector&) const;
 
     friend istream& operator>> (istream&, Vector&); // Ввод
     friend ostream& operator<< (ostream&, const Vector&); // Вывод
