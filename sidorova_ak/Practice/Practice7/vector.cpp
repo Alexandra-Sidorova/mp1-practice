@@ -62,7 +62,7 @@ double Vector::Lenght() const
     return sqrt(lenght);
 }
 
-Vector& Vector::operator=(const Vector& _rez)
+const Vector& Vector::operator=(const Vector& _rez)
 {
     if (this == &_rez)
         return *this;
@@ -271,7 +271,7 @@ const double& Vector::operator[](int index) const
     return cells[index];
 }
 
-bool Vector::operator==(const Vector& _vector)
+bool Vector::operator==(const Vector& _vector) const
 {
     if (_vector.size != size)
         return 0; 
@@ -283,7 +283,7 @@ bool Vector::operator==(const Vector& _vector)
     return 1;
 }
 
-bool Vector::operator!=(const Vector& _vector)
+bool Vector::operator!=(const Vector& _vector) const
 {
     if (_vector.size != size)
         return 1;
@@ -298,7 +298,7 @@ bool Vector::operator!=(const Vector& _vector)
     return 1;
 }
 
-bool Vector::operator>(const Vector& _vector)
+bool Vector::operator>(const Vector& _vector) const
 {
     if (_vector.size != size)
         throw Exception("Not correct size of vector!");
@@ -306,7 +306,7 @@ bool Vector::operator>(const Vector& _vector)
     return(Lenght() > _vector.Lenght());
 }
 
-bool Vector::operator>=(const Vector& _vector)
+bool Vector::operator>=(const Vector& _vector) const
 {
     if (_vector.size != size)
         throw Exception("Not correct size of vector!");
@@ -314,7 +314,7 @@ bool Vector::operator>=(const Vector& _vector)
     return(Lenght() >= _vector.Lenght());
 }
 
-bool Vector::operator<(const Vector& _vector)
+bool Vector::operator<(const Vector& _vector) const
 {
     if (_vector.size != size)
         throw Exception("Not correct size of vector!");
@@ -322,26 +322,13 @@ bool Vector::operator<(const Vector& _vector)
     return(Lenght() < _vector.Lenght());
 }
 
-bool Vector::operator<=(const Vector& _vector)
+bool Vector::operator<=(const Vector& _vector) const
 {
     if (_vector.size != size)
         throw Exception("Not correct size of vector!");
 
     return(Lenght() <= _vector.Lenght());
 }
-
-void* Vector::operatornew(size_t _size) 
-{ 
-    void* tmp = malloc(_size);
-    if (tmp == NULL)
-        throw("Empty vector!");
-    return tmp; 
-};
-
-void Vector::operatordelete(void* _vector) 
-{
-    delete (Vector*)_vector;
-};
 
 istream& operator>> (istream& in, Vector& _vector)
 {
