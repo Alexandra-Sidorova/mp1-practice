@@ -27,14 +27,11 @@ Matrix::Matrix(int _rows, int _cols)
 
 Matrix::Matrix(int _rows, int _cols, double* _cells)
 {
-	if (*_cells == NULL)
+	if (_cells == NULL)
 		throw Exception("Empty array!");
 
-	if ((_rows <= 0) || (_cols <= 0));
+	if ((_rows <= 0) || (_cols <= 0))
 		throw Exception("Not correct size of matrix!");
-
-	if ((sizeof(_cells) / sizeof(_cells[0])) != (_rows * _cols))
-			throw Exception("Not correct size of array with data!");
 
 	rows = _rows;
 	cols = _cols;
@@ -61,7 +58,7 @@ Matrix::~Matrix()
 	delete[] cells;
 }
 
-Matrix& Matrix::operator=(const Matrix& _matrix)
+const Matrix& Matrix::operator=(const Matrix& _matrix)
 {
 	if (this == &_matrix)
 		return *this;
@@ -123,6 +120,52 @@ Matrix Matrix::operator-(double num)
 	return result;
 }
 
+Matrix Matrix::operator+=(const Matrix& _add)
+{
+	if ((rows != _add.rows) || (cols != _add.cols))
+		throw Exception("Not correct size of matrix!");
+
+	for (int i = 0; i < rows * cols; i++)
+		cells[i] += _add.cells[i];
+
+	return *this;
+}
+
+Matrix Matrix::operator+=(double num)
+{
+	for (int i = 0; i < rows * cols; i++)
+		cells[i] += num;
+
+		return *this;
+}
+
+Matrix Matrix::operator-=(const Matrix& _add)
+{
+	if ((rows != _add.rows) || (cols != _add.cols))
+		throw Exception("Not correct size of matrix!");
+
+	for (int i = 0; i < rows * cols; i++)
+		cells[i] -= _add.cells[i];
+
+	return *this;
+}
+
+Matrix Matrix::operator-=(double num)
+{
+	for (int i = 0; i < rows * cols; i++)
+		cells[i] -= num;
+
+	return *this;
+}
+
+Matrix Matrix::operator*=(double num)
+{
+	for (int i = 0; i < rows * cols; i++)
+		cells[i] *= num;
+
+	return *this;
+}
+
 Matrix Matrix::operator*(const Matrix& _factor)
 {
 	if (cols != _factor.rows)
@@ -149,20 +192,39 @@ Matrix Matrix::operator*(double num)
 	return result;
 }
 
-const double& Matrix::operator[](int index) const
+Matrix Matrix::operator~()
 {
-	if ((index <= 0) || (index >= (rows * cols)))
-		throw Exception("Not correct index!");
+	if (rows != cols)
+		throw Exception("Not correct size of matrix!");
 
-	return cells[index];
+	Matrix E(rows, rows), tmp(*this);
+
+	for (int i = 0; i < (rows * cols); i++)
+		if (i % (cols + 1) == 0)
+			E.cells[i] = 1;
+
+	for (int i = 0; i < tmp.cols; i++)
+	{
+		double key = tmp[i][i];
+
+		for (int j = 0; j < tmp.rows; j++)
+			for (int k = 0; k < tmp.cols; k++)
+			{
+				if (i == j)
+					tmp[i][k] /= key;
+				else
+
+			}
+		}
+	}
 }
 
-double& Matrix::operator[](int index)
+double* Matrix::operator[](int index_rows)
 {
-	if ((index <= 0) || (index >= (rows * cols)))
+	if ((index_rows < 0) || (index_rows >= rows))
 		throw Exception("Not correct index!");
 
-	return cells[index];
+	return(cells + cols * index_rows);
 }
 
 istream& operator>>(istream& in, Matrix& _matrix)
@@ -184,12 +246,12 @@ ostream& operator<<(ostream &out, const Matrix& _matrix)
 	for (int i = 0; i < (_matrix.rows * _matrix.cols); i++)
 	{
 		if (i % _matrix.cols == 0)
-			out << "\n| ";
+			out << "| ";
 
 		out << _matrix.cells[i] << " ";
 
 		if ((i + 1) % _matrix.cols == 0)
-			out << "|";
+			out << "|" << endl;
 	}
 
 	return out;

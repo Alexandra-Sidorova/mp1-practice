@@ -17,15 +17,20 @@ public:
 	Matrix(const Matrix&);
 	~Matrix();
 
-	Matrix& operator=(const Matrix&);
+	const Matrix& operator=(const Matrix&);
 	Matrix operator+(const Matrix&);
 	Matrix operator+(double);
 	Matrix operator-(const Matrix&);
 	Matrix operator-(double);
 	Matrix operator*(const Matrix&);
 	Matrix operator*(double);
-	const double& operator[](int) const;
-	double& operator[](int);
+	Matrix operator+=(const Matrix&);
+	Matrix operator+=(double num);
+	Matrix operator-=(const Matrix&);
+	Matrix operator-=(double num);
+	Matrix operator*=(double num);
+	Matrix operator~();
+	double* operator[](int index_rows);
 
 	friend istream& operator>> (istream&, Matrix&); // Ввод
 	friend ostream& operator<< (ostream&, const Matrix&); // Вывод
