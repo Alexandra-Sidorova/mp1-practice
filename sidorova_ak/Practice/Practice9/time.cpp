@@ -175,7 +175,7 @@ istream& operator>> (istream& in, Time& _time)
 
 ostream& operator<< (ostream& out, const Time& _time)
 {
-	out << _time.hours << " h. " << _time.min << " min.";
+	out << _time.hours << ":" << _time.min;
 	
 	return out;
 }
