@@ -110,16 +110,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="date.h" />
-    <ClInclude Include="exceptions.h" />
-    <ClInclude Include="taskAllDay.h" />
-    <ClInclude Include="taskTime.h" />
-    <ClInclude Include="time.h" />
+    <ClCompile Include="Includes\date.cpp" />
+    <ClCompile Include="Includes\task.cpp" />
+    <ClCompile Include="Includes\taskAllDay.cpp" />
+    <ClCompile Include="Includes\taskTime.cpp" />
+    <ClCompile Include="Includes\time.cpp" />
+    <ClCompile Include="Includes\todoList.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="date.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="time.cpp" />
+    <ClInclude Include="Includes\date.h" />
+    <ClInclude Include="Includes\exceptions.h" />
+    <ClInclude Include="Includes\task.h" />
+    <ClInclude Include="Includes\taskAllDay.h" />
+    <ClInclude Include="Includes\taskTime.h" />
+    <ClInclude Include="Includes\time.h" />
+    <ClInclude Include="Includes\todoList.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
