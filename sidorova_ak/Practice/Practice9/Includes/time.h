@@ -7,35 +7,35 @@ using namespace std;
 class Time
 {
 private:
-	unsigned int hours, min;
+    unsigned int hours, min;
 public:
-	Time();
-	Time(unsigned int, unsigned int);
-	Time(const Time& );
-	~Time();
+    Time();
+    Time(unsigned int, unsigned int);
+    Time(const Time& );
+    ~Time();
 
-	unsigned int GetHours();
-	unsigned int GetMin();
-	void SetTime(unsigned int, unsigned int);
-	void CorrectTime(Time&); // корректировка времени засчет минут
+    unsigned int GetHours();
+    unsigned int GetMin();
+    void SetTime(unsigned int, unsigned int);
+    void CorrectTime(Time&); // РєРѕСЂСЂРµРєС‚РёСЂРѕРІРєР° РІСЂРµРјРµРЅРё Р·Р°СЃС‡РµС‚ РјРёРЅСѓС‚
 
-	const Time& operator=(const Time&);
-	Time operator+(const Time&);
-	Time operator-(const Time&);
-	Time operator+=(const Time&);
-	Time operator+=(unsigned int); // добавление минут
-	Time operator-=(const Time&);
-	Time operator-=(unsigned int); // вычитание минут
+    const Time& operator=(const Time&);
+    Time operator+(const Time&);
+    Time operator-(const Time&);
+    Time operator+=(const Time&);
+    Time operator+=(unsigned int); // РґРѕР±Р°РІР»РµРЅРёРµ РјРёРЅСѓС‚
+    Time operator-=(const Time&);
+    Time operator-=(unsigned int); // РІС‹С‡РёС‚Р°РЅРёРµ РјРёРЅСѓС‚
 
-	bool operator==(const Time&) const;
-	bool operator!=(const Time&) const;
-	bool operator>(const Time&) const;
-	bool operator>=(const Time&) const;
-	bool operator<(const Time&) const;
-	bool operator<=(const Time&) const;
+    bool operator==(const Time&) const;
+    bool operator!=(const Time&) const;
+    bool operator>(const Time&) const;
+    bool operator>=(const Time&) const;
+    bool operator<(const Time&) const;
+    bool operator<=(const Time&) const;
 
-	friend istream& operator>>(istream&, Time&); // Ввод
-	friend ostream& operator<<(ostream&, const Time&); // Вывод
+    friend istream& operator>>(istream&, Time&); // РІРІРѕРґ
+    friend ostream& operator<<(ostream&, const Time&); // РІС‹РІРѕРґ
 };
 
 #endif

@@ -7,36 +7,36 @@ using namespace std;
 class Date
 {
 private:
-	unsigned int day, mouth, year;
+    unsigned int day, mouth, year;
 public:
-	Date();
-	Date(unsigned int, unsigned int, unsigned int);
-	Date(const Date&);
-	~Date();
+    Date();
+    Date(unsigned int, unsigned int, unsigned int);
+    Date(const Date&);
+    ~Date();
 
-	unsigned int GetDay();
-	unsigned int GetMouth();
-	unsigned int GetYear();
-	void SetDate(unsigned int, unsigned int, unsigned int);
-	void CorrectDate(Date&); // корректировка даты засчет дней и месяцев
+    unsigned int GetDay();
+    unsigned int GetMouth();
+    unsigned int GetYear();
+    void SetDate(unsigned int, unsigned int, unsigned int);
+    void CorrectDate(Date&); // РєРѕСЂСЂРµРєС‚РёСЂРѕРІРєР° РґР°С‚С‹ Р·Р°СЃС‡РµС‚ РґРЅРµР№ Рё РјРµСЃВ¤С†РµРІ
 
-	const Date& operator=(const Date&);
-	Date operator+(const Date&);
-	Date operator-(const Date&);
-	Date operator+=(const Date&);
-	Date operator+=(unsigned int); // добавление суток
-	Date operator-=(const Date&);
-	Date operator-=(unsigned int); // вычитание суток
+    const Date& operator=(const Date&);
+    Date operator+(const Date&);
+    Date operator-(const Date&);
+    Date operator+=(const Date&);
+    Date operator+=(unsigned int); // РґРѕР±Р°РІР»РµРЅРёРµ СЃСѓС‚РѕРє
+    Date operator-=(const Date&);
+    Date operator-=(unsigned int); // РІС‹С‡РёС‚Р°РЅРёРµ СЃСѓС‚РѕРє
 
-	bool operator==(const Date&) const;
-	bool operator!=(const Date&) const;
-	bool operator>(const Date&) const;
-	bool operator>=(const Date&) const;
-	bool operator<(const Date&) const;
-	bool operator<=(const Date&) const;
+    bool operator==(const Date&) const;
+    bool operator!=(const Date&) const;
+    bool operator>(const Date&) const;
+    bool operator>=(const Date&) const;
+    bool operator<(const Date&) const;
+    bool operator<=(const Date&) const;
 
-	friend istream& operator>>(istream&, Date&); // Ввод
-	friend ostream& operator<<(ostream&, const Date&); // Вывод
+    friend istream& operator>>(istream&, Date&); // РІРІРѕРґ
+    friend ostream& operator<<(ostream&, const Date&); // РІС‹РІРѕРґ
 };
 
 #endif

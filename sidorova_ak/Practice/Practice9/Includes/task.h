@@ -9,16 +9,16 @@ using namespace std;
 class Task
 {
 protected:
-	string discription;
-	Date date;
+    string discription;
+    Date date;
 public:
-	Task();
-	Task(string, Date);
-	Task(const Task&);
-	virtual ~Task();
+    Task();
+    Task(string, Date);
+    Task(const Task&);
+    virtual ~Task();
 
-	Date GetDate();
-	virtual void Print() = 0;
+    Date GetDate();
+    virtual void Print() = 0;
 };
 
 #endif

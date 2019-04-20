@@ -8,16 +8,16 @@ using namespace std;
 class TodoList
 {
 private:
-	unsigned int count;
-	Task** tasks;
+    unsigned int count;
+    Task** tasks;
 public:
-	TodoList();
-	TodoList(unsigned int);
-	TodoList(const TodoList&);
-	~TodoList();
+    TodoList();
+    TodoList(unsigned int);
+    TodoList(const TodoList&);
+    ~TodoList();
 
-	void Read(const string);
-	void Print(Date);
+    void Read(const string);
+    void Print(Date);
 };
 
 #endif

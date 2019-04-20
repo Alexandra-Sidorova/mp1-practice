@@ -7,16 +7,16 @@
 class TaskTime : public Task
 {
 private:
-	Time start, finish;
+    Time start, finish;
 public:
-	TaskTime();
-	TaskTime(string, Date, Time, Time);
-	TaskTime(const TaskTime&);
-	~TaskTime();
+    TaskTime();
+    TaskTime(string, Date, Time, Time);
+    TaskTime(const TaskTime&);
+    ~TaskTime();
 
-	Time GetTimeStart();
-	Time GetTimeFinish();
-	void Print();
+    Time GetTimeStart();
+    Time GetTimeFinish();
+    void Print();
 };
 
 #endif

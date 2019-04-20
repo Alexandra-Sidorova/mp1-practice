@@ -9,24 +9,24 @@ using namespace std;
 
 void main()
 {
-	TodoList list;
-	int day, mouth, year;
+    TodoList list;
+    int day, mouth, year;
 
-	cout << "########## CALENDARY 'TODO LIST' ##########" << endl << endl;
-	cout << "Date: ";
-	cin >> day >> mouth >> year;
-	Date date(day, mouth, year);
-	cout << endl;
-	
-	try 
-	{
-		list.Read("ToDo.txt");
-		list.Print(date);
-	}
-	catch (Exception exp)
-	{
-		exp.Print();
-	}
+    cout << "########## CALENDARY 'TODO LIST' ##########" << endl << endl;
+    cout << "Date: ";
+    cin >> day >> mouth >> year;
+    Date date(day, mouth, year);
+    cout << endl;
+    
+    try 
+    {
+        list.Read("ToDo.txt");
+        list.Print(date);
+    }
+    catch (Exception exp)
+    {
+        exp.Print();
+    }
 
-	_getch();
+    _getch();
 }
