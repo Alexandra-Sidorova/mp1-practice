@@ -165,14 +165,23 @@ bool Time::operator<=(const Time& time) const
 
 istream& operator>>(istream& in, Time& _time)
 {
-    in >> _time.hours >> _time.min;
+	char a;
+
+    in >> _time.hours >> a >> _time.min;
 
     return in;
 }
 
 ostream& operator<<(ostream& out, const Time& _time)
 {
-    out << _time.hours << " h. " << _time.min << " min.";
+	unsigned int sTime[4];
+
+	sTime[0] = _time.hours / 10;
+	sTime[1] = _time.hours % 10;
+	sTime[2] = _time.min / 10;
+	sTime[3] = _time.min % 10;
+
+    out << sTime[0] << sTime[1] << ":" << sTime[2] << sTime[3];
     
     return out;
 }

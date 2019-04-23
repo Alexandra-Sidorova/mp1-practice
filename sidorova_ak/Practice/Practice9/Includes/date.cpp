@@ -222,7 +222,9 @@ bool Date::operator<=(const Date& date) const
 
 istream& operator>>(istream& in, Date& _date)
 {
-    in >> _date.day >> _date.mouth >> _date.year;
+	char a;
+
+    in >> _date.day >> a >> _date.mouth >> a >> _date.year;
 
     return in;
 }

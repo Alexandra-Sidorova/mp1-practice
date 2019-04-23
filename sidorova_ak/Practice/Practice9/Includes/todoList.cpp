@@ -61,20 +61,25 @@ void TodoList::Read(const string nameFile)
 
         if (type == 1)
         {
-            file >> day >> mouth >> year;
-            Date tmpDate(day, mouth, year);
-            std::getline(file, discription, '\n');
+			Date tmpDate;
+
+			file >> tmpDate;
+            getline(file, discription, '\n');
             tasks[i] = new TaskAllDay(discription, tmpDate);
             continue;
         }
             
-        if(type == 2)
+        if (type == 2)
         {
-            unsigned int sHour, sMin, fHour, fMin;
-            file >> day >> mouth >> year >> sHour >> sMin >> fHour >> fMin;
-            Date tmpDate(day, mouth, year);
-            Time tmpTimeStart(sHour, sMin);
-            Time tmpTimeFinish(fHour, fMin);
+            Date tmpDate;
+            Time tmpTimeStart;
+            Time tmpTimeFinish;
+			char a;
+
+			file >> tmpDate; //>> tmpTimeStart >> a >> tmpTimeFinish;
+			file >> tmpTimeStart;
+			file >> a;
+			file >> tmpTimeFinish;
             getline(file, discription, '\n');
             tasks[i] = new TaskTime(discription, tmpDate, tmpTimeStart, tmpTimeFinish);
             continue;
