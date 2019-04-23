@@ -10,14 +10,14 @@ using namespace std;
 void main()
 {
     TodoList list;
-	Date date;
+    Date date;
 
     cout << "########## CALENDARY 'TODO LIST' ##########" << endl << endl;
     cout << "Date: ";
 
-	try
-	{
-	    cin >> date;
+    try
+    {
+        cin >> date;
         cout << endl;
     
         list.Read("ToDo.txt");

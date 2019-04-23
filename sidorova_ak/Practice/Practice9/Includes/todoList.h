@@ -3,8 +3,6 @@
 #include "task.h"
 #include "date.h"
 
-using namespace std;
-
 class TodoList
 {
 private:

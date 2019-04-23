@@ -61,9 +61,9 @@ void TodoList::Read(const string nameFile)
 
         if (type == 1)
         {
-			Date tmpDate;
+            Date tmpDate;
 
-			file >> tmpDate;
+            file >> tmpDate;
             getline(file, discription, '\n');
             tasks[i] = new TaskAllDay(discription, tmpDate);
             continue;
@@ -74,12 +74,9 @@ void TodoList::Read(const string nameFile)
             Date tmpDate;
             Time tmpTimeStart;
             Time tmpTimeFinish;
-			char a;
+            char a;
 
-			file >> tmpDate; //>> tmpTimeStart >> a >> tmpTimeFinish;
-			file >> tmpTimeStart;
-			file >> a;
-			file >> tmpTimeFinish;
+            file >> tmpDate >> tmpTimeStart >> a >> tmpTimeFinish;
             getline(file, discription, '\n');
             tasks[i] = new TaskTime(discription, tmpDate, tmpTimeStart, tmpTimeFinish);
             continue;

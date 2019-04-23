@@ -13,8 +13,11 @@ Date::Date(unsigned int _day, unsigned int _mouth, unsigned int _year)
     if ((_day <= 0) || (_day > 31) || (_mouth <= 0) || (_mouth > 12) || (_year < 1900))
         throw Exception("Not correct date!");
 
-    if((_day > 29) && (_mouth == 2)) // проверка на 28-29 суток в феврале
-        throw Exception("Not correct date!");
+    if ((_day >= 29) && (_mouth == 2) && ((_year % 4 != 0) || ((_year % 4 == 0) && (_year & 100 == 0))))
+        throw Exception("Not correct date! It's not a Leap year!");
+
+    if ((_day > 29) && (_mouth == 2) && (((_year % 4 == 0) && (_year & 100 != 0)) || (_year % 400 == 0)))
+        throw Exception("Not correct date! It's a Leap year!");
 
     day = _day;
     mouth = _mouth;
@@ -55,8 +58,11 @@ void Date::SetDate(unsigned int _day, unsigned int _mouth, unsigned int _year)
     if ((_day <= 0) || (_day > 31) || (_mouth <= 0) || (_mouth > 12) || (_year < 1900))
         throw Exception("Not correct date!");
 
-    if ((_day > 29) && (_mouth == 2)) // проверка на 28-29 суток в феврале
-        throw Exception("Not correct date!");
+    if ((_day >= 29) && (_mouth == 2) && ((_year % 4 != 0) || ((_year % 4 == 0) && (_year & 100 == 0))))
+        throw Exception("Not correct date! It's not a Leap year!");
+
+    if ((_day > 29) && (_mouth == 2) && (((_year % 4 == 0) && (_year & 100 != 0)) || (_year % 400 == 0)))
+        throw Exception("Not correct date! It's a Leap year!");
 
     day = _day;
     mouth = _mouth;
@@ -222,16 +228,25 @@ bool Date::operator<=(const Date& date) const
 
 istream& operator>>(istream& in, Date& _date)
 {
-	char a;
+    char a;
 
     in >> _date.day >> a >> _date.mouth >> a >> _date.year;
+
+    if ((_date.day <= 0) || (_date.day > 31) || (_date.mouth <= 0) || (_date.mouth > 12) || (_date.year < 1900))
+        throw Exception("Not correct date!");
+
+    if ((_date.day >= 29) && (_date.mouth == 2) && ((_date.year % 4 != 0) || ((_date.year % 4 == 0) && (_date.year & 100 == 0))))
+        throw Exception("Not correct date! It's not a Leap year!");
+
+    if ((_date.day > 29) && (_date.mouth == 2) && (((_date.year % 4 == 0) && (_date.year & 100 != 0)) || (_date.year % 400 == 0)))
+        throw Exception("Not correct date! It's a Leap year!");
 
     return in;
 }
 
 ostream& operator<<(ostream& out, const Date& _date)
 {
-    out << _date.day << "." << _date.mouth << "." << _date.year;
+    out << _date.day / 10 << _date.day % 10 << "." << _date.mouth / 10 << _date.mouth % 10 << "." << _date.year;
 
     return out;
 }
