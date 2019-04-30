@@ -9,7 +9,7 @@ void Swap(T &a, T &b)
 	tmp = a;
 	a = b;
 	b = tmp;
-}
+};
 
 template <typename T>
 void QuickSplit(T *array, int &i, int &j, T mid)
@@ -29,7 +29,7 @@ void QuickSplit(T *array, int &i, int &j, T mid)
 			j--;
 		}
 	} while (i <= j);
-}
+};
 
 template <typename T>
 void QuickSort(T *array, int first, int last)
@@ -43,5 +43,5 @@ void QuickSort(T *array, int first, int last)
 		QuickSort(array, first, j);
 	if (i < last)
 		QuickSort(array, i, last);
-}
+};
 #endif
