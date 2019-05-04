@@ -3,169 +3,165 @@
 
 #include "exceptions.h"
 
+/* Class for containers with pointers */
 
 template <typename T, int maxSize>
 class TContainerAdvanced
 {
 private:
-	T* array;
-	int currentSize;
+    T** array;
+    int currentSize;
 public:
-	TContainerAdvanced();
-	TContainerAdvanced(T**, int);
-	TContainerAdvanced(const TContainerAdvanced&);
-	~TContainerAdvanced();
+    TContainerAdvanced();
+    TContainerAdvanced(T**, int);
+    TContainerAdvanced(const TContainerAdvanced&);
+    ~TContainerAdvanced();
 
-	bool Full() const;
-	bool Empty() const;
+    bool Full() const;
+    bool Empty() const;
 
-	void Add(T*);
-	int Search(T*) const;
-	void Remove(T*);
-	void Remove(const int); // ������� �� �������
+    void Add(const T*);
+    int Search(const T*) const;
+    void Remove(T*);
+    void Remove(const int); // удалить по индексу
 
-	T operator[](const int);
-	friend istream& operator>>(istream&, TContainerAdvanced&); // ����
-	friend ostream& operator<<(ostream&, const TContainerAdvanced&); // �����
+    T& operator[](const int);
+    const T& operator[](const int) const;
 };
 //-----------------------------------------------------
 
 template <typename T, int maxSize>
 TContainerAdvanced<T, maxSize>::TContainerAdvanced()
 {
-	currentSize = 0;
+    currentSize = 0;
 
-	array = new T[maxSize];
-}
+    array = new T*[maxSize];
+};
 
 template <typename T, int maxSize>
 TContainerAdvanced<T, maxSize>::TContainerAdvanced(T** _array, int size)
 {
-	if (size <= 0)
-		throw Exception("Not correct number of elements!");
-	if (_array = NULL)
-		throw Exception("Array is empty!");
+    if (size <= 0)
+        throw Exception("Not correct number of elements!");
+    if (_array = NULL)
+        throw Exception("Array is empty!");
 
-	currentSize = size;
-	array = new T[maxSize];
-	for (int i = 0; i < currentSize; i++)
-		array[i] = _array[i];
-}
+    currentSize = size;
+    array = new T*[maxSize];
+
+    T* tmpArray = new T[currentSize];  // массив под элементы, скрывающиеся под указателями
+    for (int i = 0; i < currentSize; i++)
+        tmpArray[i] = *_array[i];
+
+    for (int i = 0; i < currentSize; i++) // переносим адреса
+        array[i] = &tmpArray[i];
+};
 
 template <typename T, int maxSize>
 TContainerAdvanced<T, maxSize>::TContainerAdvanced(const TContainerAdvanced& _copy)
 {
-	if (this == &_copy)
-		return *this;
-	
-	currentSize = _copy.currentSize;
-	array = new T[maxSize];
+    if (this == &_copy)
+        return *this;
+    
+    currentSize = _copy.currentSize;
+    array = new T*[maxSize];
 
-	// ��������� ���������
-	//for (int i = 0; i < currentSize; i++)
-	//	array[i] = _copy.array[i];
-}
+    T* tmpArray = new T[currentSize];  // массив под элементы, скрывающиеся под указателями
+    for (int i = 0; i < currentSize; i++)
+        tmpArray[i] = *_copy.array[i];
+
+    for (int i = 0; i < currentSize; i++) // переносим адреса
+        array[i] = &tmpArray[i];
+};
 
 template <typename T, int maxSize>
 TContainerAdvanced<T, maxSize>::~TContainerAdvanced()
 {
-	currentSize = 0;
-	// ������� ������� �� ����������
-}
+    // удалить объекты по указателям
+
+    for (int i = 0; i < currentSize; i++)
+        delete array[i];
+    delete[] array;
+    array = NULL;
+
+    currentSize = 0;
+};
 
 template <typename T, int maxSize>
 bool TContainerAdvanced<T, maxSize>::Full() const
 {
-	return(currentSize == maxSize);
-}
+    return(currentSize == maxSize);
+};
 
 template <typename T, int maxSize>
 bool TContainerAdvanced<T, maxSize>::Empty() const
 {
-	return(currentSize == 0);
-}
+    return(currentSize == 0);
+};
 
 template <typename T, int maxSize>
-void TContainerAdvanced<T, maxSize>::Add(T* object)
+void TContainerAdvanced<T, maxSize>::Add(const T* object)
 {
-	if (Full())
-		throw Exception("The Container is full! Make room to add an object.");
+    if (Full())
+        throw Exception("The Container is full! Make room to add an object.");
 
-	array[currentSize] = object;
-	currentSize++;
-}
+    array[currentSize] = object;
+    currentSize++;
+};
 
 template <typename T, int maxSize>
-int TContainerAdvanced<T, maxSize>::Search(T* object) const
+int TContainerAdvanced<T, maxSize>::Search(const T* object) const
 {
-	if (Emplty())
-		throw Exception("The Container is empty! This object missing.");
+    if (Empty())
+        throw Exception("The Container is empty! This object missing.");
 
-	for (int i = 0; i < currentSize; i++)
-		if (object == array[i])
-			return i;
+    for (int i = 0; i < currentSize; i++)
+        if (object == array[i])
+            return i;
 
-	throw Exception("This object missing in Container!");
-}
+    throw Exception("This object missing in Container!");
+};
 
 template <typename T, int maxSize>
 void TContainerAdvanced<T, maxSize>::Remove(T* object)
 {
-	if (Empty())
-		throw Exception("The Container is empty!");
+    if (Empty())
+        throw Exception("The Container is empty!");
 
-	int index = Search(object);
+    int index = Search(object);
 
-	array[index] = array[currentSize - 1];
-	currentSize--;
-}
+    array[index] = array[currentSize - 1];
+    currentSize--;
+};
 
 template <typename T, int maxSize>
 void TContainerAdvanced<T, maxSize>::Remove(const int index)
 {
-	if (Empty())
-		throw Exception("The Container is empty!");
-	if ((index < 0) || (index >= currentSize))
-		throw Exception("Not correct index!");
+    if (Empty())
+        throw Exception("The Container is empty!");
+    if ((index < 0) || (index >= currentSize))
+        throw Exception("Not correct index!");
 
-	array[index] = array[currentSize - 1];
-	currentSize--;
-}
-
-template <typename T, int maxSize>
-T TContainerAdvanced<T, maxSize>::operator[](const int index)
-{
-	if ((index < 0) || (index >= currentSize))
-		throw Exception("Not correct index!");
-
-	return array[index];
-}
+    array[index] = array[currentSize - 1];
+    currentSize--;
+};
 
 template <typename T, int maxSize>
-istream& operator>>(istream& in, TContainerAdvanced<T, maxSize>& _container)
+T& TContainerAdvanced<T, maxSize>::operator[](const int index)
 {
-	for (int i = 0; i < _container.curruntSize; i++)
-		in >> _container[i];
+    if ((index < 0) || (index >= currentSize))
+        throw Exception("Not correct index!");
 
-	return in;
-}
+    return *array[index];
+};
 
 template <typename T, int maxSize>
-ostream& operator<<(ostream& out, const TContainerAdvanced<T, maxSize>& _container)
+const T& TContainerAdvanced<T, maxSize>::operator[](const int index) const
 {
-	if (_container.currentSize == 0)
-		return("The container is empty");
+    if ((index < 0) || (index >= currentSize))
+        throw Exception("Not correct index!");
 
-	out << "[ ";
-	for (int i = 0; i < _container.curruntSize; i++)
-	{
-		if (i != (_container.currentSize - 1))
-			out << _container[i] << ", ";
-		else
-			out << _container[i] << "]";
-	}
-
-	return out;
-}
+    return *array[index];
+};
 
 #endif 

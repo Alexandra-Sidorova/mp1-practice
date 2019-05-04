@@ -18,10 +18,10 @@
     <ClInclude Include="Includes\exceptions.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="TContainer.h">
+    <ClInclude Include="Includes\TContainer.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="TQuickSort.h">
+    <ClInclude Include="Includes\TContainerAdvanced.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
   </ItemGroup>
