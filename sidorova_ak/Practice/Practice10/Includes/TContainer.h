@@ -24,14 +24,14 @@ public:
 
     void Add(const T);
     int Search(const T) const;
+	void RemoveIndex(const int); // удалить по индексу
     void Remove(const T);
-    void RemoveIndex(const int); // удалить по индексу
     void Sort();
 
     T& operator[](const int);
     const T& operator[](const int) const;
 
-    friend istream& operator>>(istream&, TContainer&)
+    friend istream& operator>>(istream&, TContainer& _container)
     {
         for (int i = 0; i < _container.curruntSize; i++)
             in >> _container[i];
@@ -138,27 +138,21 @@ int TContainer<T, maxSize>::Search(const T object) const
 };
 
 template <typename T, int maxSize>
-void TContainer<T, maxSize>::Remove(const T object)
+void TContainer<T, maxSize>::RemoveIndex(const int index)
 {
-    if (Empty())
-        throw Exception("The Container is empty!");
+	if (Empty())
+		throw Exception("The Container is empty!");
+	if ((index < 0) || (index >= currentSize))
+		throw Exception("Not correct index!");
 
-    int index = Search(object);
-
-    array[index] = array[currentSize - 1];
-    currentSize--;
+	array[index] = array[currentSize - 1];
+	currentSize--;
 };
 
 template <typename T, int maxSize>
-void TContainer<T, maxSize>::RemoveIndex(const int index)
+void TContainer<T, maxSize>::Remove(const T object)
 {
-    if (Empty())
-        throw Exception("The Container is empty!");
-    if ((index < 0) || (index >= currentSize))
-        throw Exception("Not correct index!");
-
-    array[index] = array[currentSize - 1];
-    currentSize--;
+	RemoveIndex(Search(object));
 };
 
 template <typename T, int maxSize>
