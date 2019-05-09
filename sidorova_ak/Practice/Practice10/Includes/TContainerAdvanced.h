@@ -167,7 +167,7 @@ T& TContainer<T*, maxSize>::operator[](const int index)
     if ((index < 0) || (index >= currentSize))
         throw Exception("Not correct index!");
 
-    return *array[index];
+    return *array[index];  // возвращает элемент по указателю, а не сам указатель
 };
 
 template <typename T, int maxSize>
@@ -176,7 +176,7 @@ const T& TContainer<T*, maxSize>::operator[](const int index) const
     if ((index < 0) || (index >= currentSize))
         throw Exception("Not correct index!");
 
-    return *array[index];
+    return *array[index];  // возвращает элемент по указателю, а не сам указатель
 };
 
 #endif 

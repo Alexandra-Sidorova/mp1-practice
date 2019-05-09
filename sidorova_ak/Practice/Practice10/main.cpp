@@ -179,5 +179,29 @@ void main()
 		exc.Print();
 	}
 
+	try
+	{
+		cout << "Container PA - pointer of 2nd object " << &container_pa[2] << ": ";
+		container_pa.Remove(&container_pa[2]);
+		cout << container_pa << endl;
+	}
+	catch (Exception exc)
+	{
+		exc.Print();
+	}
+
+	try
+	{
+		cout << "Object in Container PB with index 2: ";
+		cout << container_pb[2] << endl;
+
+		cout << "Object in Container PB with index 3: "; // исключение - индекс больше текущего размера
+		cout << container_pb[3] << endl;
+	}
+	catch (Exception exc)
+	{
+		exc.Print();
+	}
+
     _getch();
 }
