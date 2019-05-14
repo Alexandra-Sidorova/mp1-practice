@@ -13,7 +13,7 @@ Vector::Vector()
         cells[i] = 0;
 }
 
-Vector::Vector(Vector& tmp)
+Vector::Vector(const Vector& tmp)
 {
     size = tmp.size;
     cells = new double[size];
