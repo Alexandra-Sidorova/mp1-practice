@@ -12,7 +12,7 @@ private:
     double *cells;
 public:
     Vector();
-    Vector(Vector&);
+    Vector(const Vector&);
     Vector(int);
     Vector(int, double*);
     ~Vector();
