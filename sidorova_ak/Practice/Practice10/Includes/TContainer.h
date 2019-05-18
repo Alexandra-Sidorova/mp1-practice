@@ -7,24 +7,26 @@
 
 using namespace std;
 
-template <typename T, int maxSize>
+template <typename T>
 class TContainer
 {
 private:
     T* array;
     int currentSize;
+    int maxSize;
 public:
     TContainer();
-    TContainer(T*, int);
+    TContainer(T*, int, int);
     TContainer(const TContainer&);
     ~TContainer();
 
     bool Full() const;
     bool Empty() const;
 
+    void Resize(const int);  // увеличить размер контейнера на определенное число
     void Add(const T);
     int Search(const T) const;
-	void RemoveIndex(const int); // удалить по индексу
+    void RemoveIndex(const int); // удалить по индексу
     void Remove(const T);
     void Sort();
 
@@ -61,16 +63,17 @@ public:
 };
 //-----------------------------------------------------
 
-template <typename T, int maxSize>
-TContainer<T, maxSize>::TContainer()
+template <typename T>
+TContainer<T>::TContainer()
 {
     currentSize = 0;
+    maxSize = 1;
 
     array = new T[maxSize];
 };
 
-template <typename T, int maxSize>
-TContainer<T, maxSize>::TContainer(T* _array, int size)
+template <typename T>
+TContainer<T>::TContainer(T* _array, int size, int mSize)
 {
     if (size <= 0)
         throw Exception("Not correct number of elements!");
@@ -78,51 +81,70 @@ TContainer<T, maxSize>::TContainer(T* _array, int size)
         throw Exception("Array is empty!");
 
     currentSize = size;
+    maxSize = mSize;
     array = new T[maxSize];
     for (int i = 0; i < currentSize; i++)
         array[i] = _array[i];
 };
 
-template <typename T, int maxSize>
-TContainer<T, maxSize>::TContainer(const TContainer& _copy)
+template <typename T>
+TContainer<T>::TContainer(const TContainer& _copy)
 {
     currentSize = _copy.currentSize;
+    maxSize = _copy.maxSize;
     array = new T[maxSize];
     for (int i = 0; i < currentSize; i++)
         array[i] = _copy.array[i];
 };
 
-template <typename T, int maxSize>
-TContainer<T, maxSize>::~TContainer()
+template <typename T>
+TContainer<T>::~TContainer()
 {
     currentSize = 0;
+    maxSize = 0;
     array = NULL;
 };
 
-template <typename T, int maxSize>
-bool TContainer<T, maxSize>::Full() const
+template <typename T>
+bool TContainer<T>::Full() const
 {
     return(currentSize == maxSize);
 };
 
-template <typename T, int maxSize>
-bool TContainer<T, maxSize>::Empty() const
+template <typename T>
+bool TContainer<T>::Empty() const
 {
     return(currentSize == 0);
 };
 
-template <typename T, int maxSize>
-void TContainer<T, maxSize>::Add(const T object)
+template <typename T>
+void TContainer<T>::Resize(const int step)
+{
+    T* tmp = new T[currentSize];     // запоминаем данные из контейнера
+    for (int i = 0; i < currentSize; i++)
+        tmp[i] = array[i];
+    delete[] array;  // удаляем старое хранилище
+
+    array = new T[maxSize + step]; // создаем новое хранилище увеличенного размера
+    for (int i = 0; i < currentSize; i++)
+        array[i] = tmp[i];
+    delete[] tmp;
+
+    maxSize += step;
+};
+
+template <typename T>
+void TContainer<T>::Add(const T object)
 {
     if (Full())
-        throw Exception("The Container is full! Make room to add an object.");
+        Resize(1);
 
     array[currentSize] = object;
     currentSize++;
 };
 
-template <typename T, int maxSize>
-int TContainer<T, maxSize>::Search(const T object) const
+template <typename T>
+int TContainer<T>::Search(const T object) const
 {
     if (Empty())
         throw Exception("The Container is empty! This object missing.");
@@ -134,26 +156,26 @@ int TContainer<T, maxSize>::Search(const T object) const
     throw Exception("This object missing in Container!");
 };
 
-template <typename T, int maxSize>
-void TContainer<T, maxSize>::RemoveIndex(const int index)
+template <typename T>
+void TContainer<T>::RemoveIndex(const int index)
 {
-	if (Empty())
-		throw Exception("The Container is empty!");
-	if ((index < 0) || (index >= currentSize))
-		throw Exception("Not correct index!");
+    if (Empty())
+        throw Exception("The Container is empty!");
+    if ((index < 0) || (index >= currentSize))
+        throw Exception("Not correct index!");
 
-	array[index] = array[currentSize - 1];
-	currentSize--;
+    array[index] = array[currentSize - 1];
+    currentSize--;
 };
 
-template <typename T, int maxSize>
-void TContainer<T, maxSize>::Remove(const T object)
+template <typename T>
+void TContainer<T>::Remove(const T object)
 {
-	RemoveIndex(Search(object));
+    RemoveIndex(Search(object));
 };
 
-template <typename T, int maxSize>
-void TContainer<T, maxSize>::Sort()
+template <typename T>
+void TContainer<T>::Sort()
 {
     if (Empty())
         throw Exception("The Container is empty!");
@@ -161,8 +183,8 @@ void TContainer<T, maxSize>::Sort()
     QuickSort<T>(array, 0, currentSize - 1);
 };
 
-template <typename T, int maxSize>
-T& TContainer<T, maxSize>::operator[](int index)
+template <typename T>
+T& TContainer<T>::operator[](int index)
 {
     if ((index < 0) || (index >= currentSize))
         throw Exception("Not correct index!");
@@ -170,8 +192,8 @@ T& TContainer<T, maxSize>::operator[](int index)
     return array[index];
 };
 
-template <typename T, int maxSize>
-const T& TContainer<T, maxSize>::operator[](int index) const
+template <typename T>
+const T& TContainer<T>::operator[](int index) const
 {
     if ((index < 0) || (index >= currentSize))
         throw Exception("Not correct index!");
