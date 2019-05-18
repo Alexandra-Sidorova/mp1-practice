@@ -149,17 +149,10 @@ void main()
         int b = -1;
         int *pb = &b;
         
-        cout << "Container PB + pointer of object b = -1: "; // исключение - контейнер полон
+        cout << "Container PB + pointer of object b = -1: "; // исключение не вызовет - контейнер увеличится (обновление)
         container_pb.Add(pb);
         cout << container_pb << endl;
-    }
-    catch (Exception exc)
-    {
-        exc.Print();
-    }
 
-    try
-    {
         cout << "Container PA - pointer of object with Index 1: ";
         container_pa.RemoveIndex(1);
         cout << container_pa << endl;
