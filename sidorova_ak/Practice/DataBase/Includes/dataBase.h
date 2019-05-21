@@ -20,8 +20,6 @@ public:
 	int getNumber();
 
 	void setNumber(const int);
-
-	friend ostream& operator<<(ostream& out, const DataBase&);
 };
 
 #endif
