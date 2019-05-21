@@ -1,4 +1,5 @@
 #include "passport.h"
+#include "exceptions.h"
 
 Passport::Passport()
 {

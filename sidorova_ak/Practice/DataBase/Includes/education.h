@@ -2,11 +2,20 @@
 #define _EDUCATION_H_
 
 #include <string>
+#include <iostream>
 
 using namespace std;
 
-enum LevelEducation {BasicGeneral, SecondarySchool, LowerPostSecondary, 
-	IncompleteHigher, Bachelor, Specialist, Master};
+enum LevelEducation 
+{
+	BasicGeneral, 
+	SecondarySchool, 
+	LowerPostSecondary, 
+	IncompleteHigher, 
+	Bachelor, 
+	Specialist, 
+	Master
+};
 
 class Education
 {
@@ -23,11 +32,13 @@ public:
 
 	string getUnivercity();
 	LevelEducation getLevel();
-	string getSpecial();
+	string getSpecialization();
 
-	void setUnivercity();
-	void setLevel();
-	void setSpecial();
+	void setUnivercity(const string);
+	void setLevel(const LevelEducation);
+	void setSpecialization(const string);
+
+	friend ostream& operator<<(ostream&, const Education&);
 };
 
 #endif;

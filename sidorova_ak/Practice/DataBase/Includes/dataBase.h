@@ -2,17 +2,26 @@
 #define _DATABASE_H_
 
 #include "person.h"
+#include <iostream>
+
+using namespace std;
 
 class DataBase
 {
 private:
-	Person* workers;
 	int number;  // количество работ€г
+	Person* workers;
 public:
 	DataBase();
 	DataBase(int);
-	DataBase(Person*, int);
+	DataBase(int, Person*);
 	~DataBase();
+
+	int getNumber();
+
+	void setNumber(const int);
+
+	friend ostream& operator<<(ostream& out, const DataBase&);
 };
 
 #endif
