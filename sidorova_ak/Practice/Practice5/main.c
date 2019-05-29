@@ -314,40 +314,40 @@ void main()
         switch (typeOfSort)
         {
         case 1:
-			start = clock();
+            start = clock();
             BubbleSort(filesSize, filesIndex, count);
-			finish = clock();
+            finish = clock();
             break;
         case 2:
-			start = clock();
+            start = clock();
             InsertionSort(filesSize, filesIndex, count);
-			finish = clock();
+            finish = clock();
             break;
         case 3:
-			start = clock();
+            start = clock();
             SelectionSort(filesSize, filesIndex, count);
-			finish = clock();
+            finish = clock();
             break;
         case 4:
-			start = clock();
+            start = clock();
             CountingSort(filesSize, filesIndex, count);
-			finish = clock();
+            finish = clock();
             break;
         case 5:
             tmpSizes = (ULONGLONG*)malloc(count * sizeof(ULONGLONG));           // Выделение доп. памяти для
             for (i = 0; i < count; i++)                                         // сохранения и изменения размеров файлов
                 tmpSizes[i] = filesSize[i];
 
-			start = clock();
+            start = clock();
             QuickSort(tmpSizes, filesIndex, 0, (count - 1));
-			finish = clock();
+            finish = clock();
 
             free(tmpSizes);
             break;
         case 6:
-			start = clock();
+            start = clock();
             MergeSort(filesSize, filesIndex, 0, (count - 1));
-			finish = clock();
+            finish = clock();
             break;
         }
 
