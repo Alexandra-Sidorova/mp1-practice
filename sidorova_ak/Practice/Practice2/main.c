@@ -101,4 +101,4 @@ void main()
     } while (bulls != n);
 
     printf("\nCongratulations! You win!\n");
-} 
+}

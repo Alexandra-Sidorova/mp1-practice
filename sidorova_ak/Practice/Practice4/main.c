@@ -34,11 +34,8 @@ int ScanBarcode(char a[][4], int check[][2], int k)               // Функц�
 void DescriptionOfProduct(int number, char barc[][4], char db[][16], int pr[], int sale[])  // Функция на описание товара
 {
     int i = 0;
-    printf(" Product - %c%c%c%c ", barc[number][0], barc[number][1], barc[number][2], barc[number][3]);
-    for (i; i < 16; i++)
-    {
-        printf("%c", db[number][i]);                              // Вывод наименования товара
-    }
+    printf(" Product - %.4s ", barc[number]);
+    printf("%s", db[number]);                             
     printf(" %d rub. %d%%\n ", pr[number], sale[number]);
 }
 
@@ -52,7 +49,7 @@ int AllCost(int check[][2], int price[], int count_products)      // Функц�
     return cost;
 }
 
-float TotalCost(int check[][2], int prices[], int sales[], int count_products, int cost)        // Функция на общую стоимость со скидками
+float TotalCost(int check[][2], int prices[], int sales[], int count_products, int cost)  // Функция на общую стоимость со скидками
 {
     float cost_with_sales = 0;
     int i = 0;
@@ -74,9 +71,9 @@ void OutputCheck(char name[][16], int price[], int count[][2], int sale[], int c
 
     for (i; i < count_product; i++)                               // Выписываем товары с описанием
     {
-        for (j = 0; j < 16; j++)
-            printf("%c", name[count[i][0]][j]);
-        printf(" %d rub. %d it. %.2f rub.\n ", price[count[i][0]], count[i][1], price[count[i][0]] * count[i][1] * (1.0 - sale[count[i][0]] / 100.0));
+        printf("%s", name[count[i][0]]);
+        printf(" %d rub. %d it. %.2f rub.\n ", price[count[i][0]], count[i][1], price[count[i][0]] 
+			* count[i][1] * (1.0 - sale[count[i][0]] / 100.0));
     }
 
     printf("\n Cost: %d rub.\n Total sale: %.1f%%\n Total cost: %.2f rub.\n", cost, cost_sale, total);
