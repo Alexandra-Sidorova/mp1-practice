@@ -76,7 +76,7 @@ void main()
             break;
         }
 
-		i++;
+        i++;
 
     } while (f == 0);
 
