@@ -24,7 +24,7 @@ void main()
     }
     catch (Exception exc)
     {
-		cout << exc.what() << endl;
+        cout << exc.what() << endl;
     }
 
     try
@@ -51,7 +51,7 @@ void main()
     }
     catch (Exception exc)
     {
-		cout << exc.what() << endl;
+        cout << exc.what() << endl;
     }
 
     try
@@ -62,7 +62,7 @@ void main()
     }
     catch (Exception exc)
     {
-		cout << exc.what() << endl;
+        cout << exc.what() << endl;
     }
 
     try
@@ -79,7 +79,7 @@ void main()
     }
     catch (Exception exc)
     {
-		cout << exc.what() << endl;
+        cout << exc.what() << endl;
     }
 
     try
@@ -92,7 +92,7 @@ void main()
     }
     catch (Exception exc)
     {
-		cout << exc.what() << endl;
+        cout << exc.what() << endl;
     }
     
     try
@@ -107,7 +107,7 @@ void main()
     }
     catch (Exception exc)
     {
-		cout << exc.what() << endl;
+        cout << exc.what() << endl;
     } 
     //---------------------------------------------------------------------------------------
 
@@ -134,7 +134,7 @@ void main()
     }
     catch (Exception exc)
     {
-		cout << exc.what() << endl;
+        cout << exc.what() << endl;
     }
 
     try
@@ -163,7 +163,7 @@ void main()
     }
     catch (Exception exc)
     {
-		cout << exc.what() << endl;
+        cout << exc.what() << endl;
     }
 
     try
@@ -174,7 +174,7 @@ void main()
     }
     catch (Exception exc)
     {
-		cout << exc.what() << endl;
+        cout << exc.what() << endl;
     }
 
     try
@@ -187,7 +187,7 @@ void main()
     }
     catch (Exception exc)
     {
-		cout << exc.what() << endl;
+        cout << exc.what() << endl;
     }
 
     _getch();
