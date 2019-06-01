@@ -124,7 +124,7 @@ Date Date::operator-(const Date& _sub)
     return result;
 }
 
-Date Date::operator+=(const Date& _add)
+Date& Date::operator+=(const Date& _add)
 {
     day += _add.day;
     mouth += _add.mouth;
@@ -134,7 +134,7 @@ Date Date::operator+=(const Date& _add)
     return *this;
 }
 
-Date Date::operator+=(unsigned int _day)
+Date& Date::operator+=(unsigned int _day)
 {
     day += _day;
     CorrectDate(*this);
@@ -142,7 +142,7 @@ Date Date::operator+=(unsigned int _day)
     return *this;
 }
 
-Date Date::operator-=(const Date& _sub)
+Date& Date::operator-=(const Date& _sub)
 {
     day -= _sub.day;
     mouth -= _sub.mouth;
@@ -152,7 +152,7 @@ Date Date::operator-=(const Date& _sub)
     return *this;
 }
 
-Date Date::operator-=(unsigned int _day)
+Date& Date::operator-=(unsigned int _day)
 {
     day -= _day;
     CorrectDate(*this);

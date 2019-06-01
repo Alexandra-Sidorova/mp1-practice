@@ -1,6 +1,6 @@
+#include <cmath>
+#include <iostream>
 #include "vector.h"
-#include "cmath"
-#include "iostream"
 #include "exceptions.h"
 
 using namespace std;
@@ -52,27 +52,17 @@ Vector::~Vector()
     delete[] cells;
 }
 
-double Vector::Lenght() const
+const Vector& Vector::operator=(const Vector& _res)
 {
-    double lenght = 0;
-
-    for (int i = 0; i < size; i++)
-        lenght += (cells[i] * cells[i]);
-
-    return sqrt(lenght);
-}
-
-const Vector& Vector::operator=(const Vector& _rez)
-{
-    if (this == &_rez)
+    if (this == &_res)
         return *this;
 
     delete[] cells;
-    size = _rez.size;
+    size = _res.size;
     cells = new double[size];
 
     for (int i = 0; i < size; i++)
-        cells[i] = _rez.cells[i];
+        cells[i] = _res.cells[i];
 
     return *this;
 }
@@ -82,22 +72,22 @@ Vector Vector::operator+(const Vector& _add)
     if (_add.size != size)
         throw Exception("Not correct size of vector!");
 
-    Vector rez(size);
+    Vector res(size);
 
     for (int i = 0; i < size; i++)
-        rez.cells[i] = cells[i] + _add.cells[i];
+        res.cells[i] = cells[i] + _add.cells[i];
 
-    return rez;
+    return res;
 }
 
 Vector Vector::operator+(double num)
 {
-    Vector rez(size);
+    Vector res(size);
 
     for (int i = 0; i < size; i++)
-        rez.cells[i] = cells[i] + num;
+        res.cells[i] = cells[i] + num;
 
-    return rez;
+    return res;
 }
 
 Vector Vector::operator-(const Vector& _sub)
@@ -105,45 +95,45 @@ Vector Vector::operator-(const Vector& _sub)
     if (_sub.size != size)
         throw Exception("Not correct size of vector!");
 
-    Vector rez(size);
+    Vector res(size);
 
     for (int i = 0; i < size; i++)
-        rez.cells[i] = cells[i] - _sub.cells[i];
+        res.cells[i] = cells[i] - _sub.cells[i];
 
-    return rez;
+    return res;
 }
 
 Vector Vector::operator-(double num)
 {
-    Vector rez(size);
+    Vector res(size);
 
     for (int i = 0; i < size; i++)
-        rez.cells[i] = cells[i] - num;
+        res.cells[i] = cells[i] - num;
 
-    return rez;
+    return res;
 }
 
-Vector Vector::operator*(const Vector& _vector)
+float Vector::operator*(const Vector& _vector) const
 {
     if (_vector.size != size)
         throw Exception("Not correct size of vector!");
 
-    Vector rez(size);
+    float res = 0;
 
     for (int i = 0; i < size; i++)
-        rez.cells[i] = cells[i] * _vector.cells[i];
+        res = cells[i] * _vector.cells[i] + res;
 
-    return rez;
+    return res;
 }
 
 Vector Vector::operator*(double factor)
 {
-    Vector rez(size);
+    Vector res(size);
 
     for (int i = 0; i < size; i++)
-        rez.cells[i] = cells[i] * factor;
+        res.cells[i] = cells[i] * factor;
 
-    return rez;
+    return res;
 }
 
 Vector Vector::operator/(double factor)
@@ -151,12 +141,12 @@ Vector Vector::operator/(double factor)
     if (factor == 0)
         throw Exception("Division by zero!");
 
-    Vector rez(size);
+    Vector res(size);
 
     for (int i = 0; i < size; i++)
-        rez.cells[i] = cells[i] / factor;
+        res.cells[i] = cells[i] / factor;
 
-    return rez;
+    return res;
 }
 
 Vector Vector::operator++(int num)
@@ -187,7 +177,7 @@ Vector Vector::operator--()
     return *this;
 }
 
-Vector Vector::operator+=(const Vector& _vector)
+Vector& Vector::operator+=(const Vector& _vector)
 {
     if (_vector.size != size) 
         throw Exception("Not correct size of vector!");
@@ -198,7 +188,7 @@ Vector Vector::operator+=(const Vector& _vector)
     return *this;
 }
 
-Vector Vector::operator+=(double num)
+Vector& Vector::operator+=(double num)
 {
     for (int i = 0; i < size; i++)
         cells[i] += num;
@@ -206,7 +196,7 @@ Vector Vector::operator+=(double num)
     return *this;
 }
 
-Vector Vector::operator-=(const Vector& _vector)
+Vector& Vector::operator-=(const Vector& _vector)
 {
     if (_vector.size != size)
         throw Exception("Not correct size of vector!");
@@ -217,7 +207,7 @@ Vector Vector::operator-=(const Vector& _vector)
     return *this;
 }
 
-Vector Vector::operator-=(double num)
+Vector& Vector::operator-=(double num)
 {
     for (int i = 0; i < size; i++)
         cells[i] -= num;
@@ -225,18 +215,7 @@ Vector Vector::operator-=(double num)
     return *this;
 }
 
-Vector Vector::operator*=(const Vector& _vector)
-{
-    if (_vector.size != size)
-        throw Exception("Not correct size of vector!");
-
-    for (int i = 0; i < size; i++)
-        cells[i] *= _vector.cells[i];
-
-    return *this;
-}
-
-Vector Vector::operator*=(double num)
+Vector& Vector::operator*=(double num)
 {
     for (int i = 0; i < size; i++)
         cells[i] *= num;
@@ -244,7 +223,7 @@ Vector Vector::operator*=(double num)
     return *this;
 }
 
-Vector Vector::operator/=(double num)
+Vector& Vector::operator/=(double num)
 {
     if (num == 0)
         throw Exception("Division by zero!");
@@ -330,6 +309,11 @@ bool Vector::operator<=(const Vector& _vector) const
     return(Lenght() <= _vector.Lenght());
 }
 
+double Vector::Lenght() const
+{
+    return sqrt((*this)*(*this));
+}
+
 istream& operator>> (istream& in, Vector& _vector)
 {
     for (int i = 0; i < _vector.size; i++)
@@ -349,12 +333,9 @@ ostream& operator<< (ostream &out, const Vector& _vector)
     out << "(";
 
     for (int i = 0; i < _vector.size; i++)
-    {
-        if (i != _vector.size - 1)
-            out << _vector[i] << ", ";
-        else
-            out << _vector[i] << ")";
-    }
+        out << _vector[i] << ", ";
+    
+    out << _vector[_vector.size - 1] << ")";
 
     return out;
 }

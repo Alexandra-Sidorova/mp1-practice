@@ -1,14 +1,15 @@
 #ifndef _TIME_H_
 #define _TIME_H_
-#include "iostream"
+
+#include <iostream>
 
 using namespace std;
 
 class Time
 {
-private:
-    unsigned int hours, min;
 public:
+    unsigned int hours, min;
+
     Time();
     Time(unsigned int, unsigned int);
     Time(const Time& );
@@ -22,10 +23,10 @@ public:
     const Time& operator=(const Time&);
     Time operator+(const Time&);
     Time operator-(const Time&);
-    Time operator+=(const Time&);
-    Time operator+=(unsigned int); // добавление минут
-    Time operator-=(const Time&);
-    Time operator-=(unsigned int); // вычитание минут
+    Time& operator+=(const Time&);
+    Time& operator+=(unsigned int); // добавление минут
+    Time& operator-=(const Time&);
+    Time& operator-=(unsigned int); // вычитание минут
 
     bool operator==(const Time&) const;
     bool operator!=(const Time&) const;

@@ -7,6 +7,7 @@ void main()
     float s1[3] = { 0, 3, 4 };
     float s2[3] = { 3, 4, 12 };
     float s3[5] = { 1, 4, 3, 2, 0 };
+    float resPr;
 
     printf("a = ");
     a = Create(3);
@@ -40,11 +41,10 @@ void main()
 
     // Скалярное произведение
     printf("a * b \n");
-    res = Product(a, b);
-    Output(res);
+    resPr = Product(a, b);
+    printf("%.3f\n", resPr);
     printf("a * c \n");
-    res = Product(a, c);
-    Delete(res);
+    resPr = Product(a, c);
 
     // Длины
     printf("|a| = %.2f\n", Length(a));
