@@ -1,5 +1,5 @@
+#include <cmath>
 #include "time.h"
-#include "math.h"
 #include "exceptions.h"
 
 Time::Time()
@@ -99,7 +99,7 @@ Time Time::operator-(const Time& _sub)
     return result;
 }
 
-Time Time::operator+=(const Time& _add)
+Time& Time::operator+=(const Time& _add)
 {
     hours += _add.hours;
     min += _add.min;
@@ -108,7 +108,7 @@ Time Time::operator+=(const Time& _add)
     return *this;
 }
 
-Time Time::operator+=(unsigned int _min)
+Time& Time::operator+=(unsigned int _min)
 {
     min += _min;
     CorrectTime(*this);
@@ -116,7 +116,7 @@ Time Time::operator+=(unsigned int _min)
     return *this;
 }
 
-Time Time::operator-=(const Time& _sub)
+Time& Time::operator-=(const Time& _sub)
 {
     hours += _sub.hours;
     min += _sub.min;
@@ -125,7 +125,7 @@ Time Time::operator-=(const Time& _sub)
     return *this;
 }
 
-Time Time::operator-=(unsigned int _sub)
+Time& Time::operator-=(unsigned int _sub)
 {
     min += _sub;
     CorrectTime(*this);

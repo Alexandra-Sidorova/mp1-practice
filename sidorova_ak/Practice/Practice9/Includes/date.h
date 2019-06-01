@@ -1,14 +1,15 @@
 #ifndef _DATE_H_
 #define _DATE_H_
-#include "iostream"
+
+#include <iostream>
 
 using namespace std;
 
 class Date
 {
-private:
-    unsigned int day, mouth, year;
 public:
+    unsigned int day, mouth, year;
+
     Date();
     Date(unsigned int, unsigned int, unsigned int);
     Date(const Date&);
@@ -23,10 +24,10 @@ public:
     const Date& operator=(const Date&);
     Date operator+(const Date&);
     Date operator-(const Date&);
-    Date operator+=(const Date&);
-    Date operator+=(unsigned int); // добавление суток
-    Date operator-=(const Date&);
-    Date operator-=(unsigned int); // вычитание суток
+    Date& operator+=(const Date&);
+    Date& operator+=(unsigned int); // добавление суток
+    Date& operator-=(const Date&);
+    Date& operator-=(unsigned int); // вычитание суток
 
     bool operator==(const Date&) const;
     bool operator!=(const Date&) const;

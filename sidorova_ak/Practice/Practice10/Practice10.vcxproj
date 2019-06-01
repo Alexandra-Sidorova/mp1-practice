@@ -113,6 +113,7 @@
     <ClInclude Include="Includes\exceptions.h" />
     <ClInclude Include="Includes\TContainer.h" />
     <ClInclude Include="Includes\TContainerAdvanced.h" />
+    <ClInclude Include="Includes\TQuickSort.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />

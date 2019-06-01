@@ -1,9 +1,9 @@
+#include <iostream>
+#include <conio.h>
 #include "Includes\time.h"
 #include "Includes\date.h"
 #include "Includes\todoList.h"
 #include "Includes\exceptions.h"
-#include "iostream"
-#include "conio.h"
 
 using namespace std;
 
@@ -26,7 +26,7 @@ void main()
 
     catch (Exception exp)
     {
-        exp.Print();
+        cout << exp.what() << endl;
     }
 
     _getch();

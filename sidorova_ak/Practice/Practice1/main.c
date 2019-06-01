@@ -40,4 +40,3 @@ void main()
     m = wall + sides + lids + doors + shelfs;
     printf("Масса шкафа в кг равна %.3f\n", m);
 }
-

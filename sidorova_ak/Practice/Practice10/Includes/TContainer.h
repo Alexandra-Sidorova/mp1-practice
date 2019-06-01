@@ -15,7 +15,7 @@ private:
     int currentSize;
     int maxSize;
 public:
-    TContainer();
+    TContainer(int);
     TContainer(T*, int, int);
     TContainer(const TContainer&);
     ~TContainer();
@@ -50,13 +50,11 @@ public:
         }
 
         out << "[ ";
-        for (int i = 0; i < _container.currentSize; i++)
-        {
-            if (i != (_container.currentSize - 1))
-                out << _container[i] << ", ";
-            else
-                out << _container[i] << "]";
-        }
+
+        for (int i = 0; i < _container.currentSize - 1; i++)
+            out << _container[i] << ", ";
+
+        out << _container[_container.currentSize - 1] << "]";
 
         return out;
     }
@@ -64,10 +62,10 @@ public:
 //-----------------------------------------------------
 
 template <typename T>
-TContainer<T>::TContainer()
+TContainer<T>::TContainer(int _maxSize)
 {
     currentSize = 0;
-    maxSize = 1;
+    maxSize = _maxSize;
 
     array = new T[maxSize];
 };
@@ -125,11 +123,7 @@ void TContainer<T>::Resize(const int step)
         tmp[i] = array[i];
     delete[] array;  // удаляем старое хранилище
 
-    array = new T[maxSize + step]; // создаем новое хранилище увеличенного размера
-    for (int i = 0; i < currentSize; i++)
-        array[i] = tmp[i];
-    delete[] tmp;
-
+    array = tmp;
     maxSize += step;
 };
 
@@ -153,7 +147,7 @@ int TContainer<T>::Search(const T object) const
         if (object == array[i])
             return i;
     
-    throw Exception("This object missing in Container!");
+    return -1;
 };
 
 template <typename T>

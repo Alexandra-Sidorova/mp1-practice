@@ -14,7 +14,7 @@ private:
     int currentSize;
     int maxSize;
 public:
-    TContainer();
+    TContainer(int);
     TContainer(T**, int, int);
     TContainer(const TContainer&);
     ~TContainer();
@@ -28,8 +28,8 @@ public:
     void RemoveIndex(const int); // удалить по индексу
     void Remove(T*);
 
-    T& operator[](int);
-    const T& operator[](int) const;
+    T* operator[](int);
+    const T* operator[](int) const;
 
     friend ostream& operator<<(ostream& out, const TContainer& _container)
     {
@@ -40,13 +40,11 @@ public:
         }
 
         out << "[ ";
-        for (int i = 0; i < _container.currentSize; i++)
-        {
-            if (i != (_container.currentSize - 1))
-                out << _container[i] << ", ";
-            else
-                out << _container[i] << "]";
-        }
+
+        for (int i = 0; i < _container.currentSize - 1; i++)
+            out << *_container[i] << ", ";
+
+        out << *_container[_container.currentSize - 1] << "]";
 
         return out;
     }
@@ -54,10 +52,10 @@ public:
 //-----------------------------------------------------
 
 template <typename T>
-TContainer<T*>::TContainer()
+TContainer<T*>::TContainer(int _maxSize)
 {
     currentSize = 0;
-    maxSize = 1;
+    maxSize = _maxSize;
 
     array = new T*[maxSize];
 };
@@ -74,12 +72,8 @@ TContainer<T*>::TContainer(T** _array, int size, int mSize)
     maxSize = mSize;
     array = new T*[maxSize];
 
-    T* tmpArray = new T[currentSize];  // массив под элементы, скрывающиеся под указателями
     for (int i = 0; i < currentSize; i++)
-        tmpArray[i] = *_array[i];
-
-    for (int i = 0; i < currentSize; i++) // переносим адреса
-        array[i] = &tmpArray[i];
+        array[i] = new T(*(_array[i]));
 };
 
 template <typename T>
@@ -89,12 +83,8 @@ TContainer<T*>::TContainer(const TContainer& _copy)
     maxSize = _copy.maxSize;
     array = new T*[maxSize];
 
-    T* tmpArray = new T[currentSize];  // массив под элементы, скрывающиеся под указателями
     for (int i = 0; i < currentSize; i++)
-        tmpArray[i] = *_copy.array[i];
-
-    for (int i = 0; i < currentSize; i++) // переносим адреса
-        array[i] = &tmpArray[i];
+        array[i] = new T(*(_сopy.array[i]));
 };
 
 template <typename T>
@@ -129,11 +119,7 @@ void TContainer<T*>::Resize(const int step)
         tmp[i] = array[i];
     delete[] array;
 
-    array = new T*[maxSize + step];
-    for (int i = 0; i < currentSize; i++)
-        array[i] = tmp[i];
-    delete[] tmp;
-
+    array = tmp;
     maxSize += step;
 };
 
@@ -157,7 +143,7 @@ int TContainer<T*>::Search(const T* object) const
         if (object == array[i])
             return i;
 
-    throw Exception("This object missing in Container!");
+    return -1;
 };
 
 template <typename T>
@@ -179,21 +165,21 @@ void TContainer<T*>::Remove(T* object)
 };
 
 template <typename T>
-T& TContainer<T*>::operator[](int index)
+T* TContainer<T*>::operator[](int index)
 {
     if ((index < 0) || (index >= currentSize))
         throw Exception("Not correct index!");
 
-    return *array[index];  // возвращает элемент по указателю, а не сам указатель
+    return array[index];  // возвращает элемент по указателю, а не сам указатель
 };
 
 template <typename T>
-const T& TContainer<T*>::operator[](int index) const
+const T* TContainer<T*>::operator[](int index) const
 {
     if ((index < 0) || (index >= currentSize))
         throw Exception("Not correct index!");
 
-    return *array[index];  // возвращает элемент по указателю, а не сам указатель
+    return array[index];  // возвращает элемент по указателю, а не сам указатель
 };
 
 #endif 

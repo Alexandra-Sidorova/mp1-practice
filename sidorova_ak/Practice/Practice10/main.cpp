@@ -1,7 +1,7 @@
+#include <conio.h>
 #include "Includes/exceptions.h"
 #include "Includes/TContainer.h"
 #include "Includes/TContainerAdvanced.h"
-#include "conio.h"
 
 using namespace std;
 
@@ -24,7 +24,7 @@ void main()
     }
     catch (Exception exc)
     {
-        exc.Print();
+		cout << exc.what() << endl;
     }
 
     try
@@ -51,7 +51,7 @@ void main()
     }
     catch (Exception exc)
     {
-        exc.Print();
+		cout << exc.what() << endl;
     }
 
     try
@@ -62,7 +62,7 @@ void main()
     }
     catch (Exception exc)
     {
-        exc.Print();
+		cout << exc.what() << endl;
     }
 
     try
@@ -79,7 +79,7 @@ void main()
     }
     catch (Exception exc)
     {
-        exc.Print();
+		cout << exc.what() << endl;
     }
 
     try
@@ -92,7 +92,7 @@ void main()
     }
     catch (Exception exc)
     {
-        exc.Print();
+		cout << exc.what() << endl;
     }
     
     try
@@ -107,7 +107,7 @@ void main()
     }
     catch (Exception exc)
     {
-        exc.Print();
+		cout << exc.what() << endl;
     } 
     //---------------------------------------------------------------------------------------
 
@@ -134,7 +134,7 @@ void main()
     }
     catch (Exception exc)
     {
-        exc.Print();
+		cout << exc.what() << endl;
     }
 
     try
@@ -163,18 +163,18 @@ void main()
     }
     catch (Exception exc)
     {
-        exc.Print();
+		cout << exc.what() << endl;
     }
 
     try
     {
-        cout << "Container PA - pointer of 2nd object " << &container_pa[2] << ": ";
-        container_pa.Remove(&container_pa[2]);
+        cout << "Container PA - pointer of 2nd object " << container_pa[2] << ": ";
+        container_pa.Remove(container_pa[2]);
         cout << container_pa << endl;
     }
     catch (Exception exc)
     {
-        exc.Print();
+		cout << exc.what() << endl;
     }
 
     try
@@ -187,7 +187,7 @@ void main()
     }
     catch (Exception exc)
     {
-        exc.Print();
+		cout << exc.what() << endl;
     }
 
     _getch();

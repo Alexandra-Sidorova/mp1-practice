@@ -87,19 +87,19 @@ Vector Sub(Vector sub1, Vector sub2)
     return res;
 }
 
-Vector Product(Vector factor1, Vector factor2)
+float Product(Vector factor1, Vector factor2)
 {
-    Vector res = Create(factor1.size);
+    float res = 0;
     int i;
 
     if (factor1.size != factor2.size)
     {
         printf("Error. Not correct size of vectors.\n");
-        return res;
+        return 0;
     }
 
-    for (i = 0; i < res.size; i++)
-        res.coord[i] = factor1.coord[i] * factor2.coord[i];
+    for (i = 0; i < factor1.size; i++)
+        res = factor1.coord[i] * factor2.coord[i] + res;
 
     return res;
 }
@@ -117,20 +117,12 @@ Vector ProductNum(Vector vector, float factor)
 
 float Length(Vector vector)
 {
-    float lenght = 0;
-    int i;
-
-    for (i = 0; i < vector.size; i++)
-        lenght += (vector.coord[i] * vector.coord[i]);
-
-    lenght = sqrt(lenght);
-
-    return lenght;
+    return sqrt(Product(vector, vector));
 }
 
 float Corner(Vector v1, Vector v2)
 {
-    float corner, tmp = 0;
+    float corner = 0;
     int i;
 
     if (v1.size != v2.size)
@@ -139,10 +131,7 @@ float Corner(Vector v1, Vector v2)
         return 0;
     }
 
-    for (i = 0; i < v1.size; i++)
-        tmp += (v1.coord[i] * v2.coord[i]);
-
-    corner =  tmp / ((Length(v1) * Length(v2)));
+    corner =  Product(v1, v2) / ((Length(v1) * Length(v2)));
     corner = acos(corner) * 180 / PI;
 
     return corner;
@@ -153,16 +142,12 @@ void Output(Vector vector)
     int i;
 
     if (vector.size == 0)
-    {
         printf("Error <Empty vector.\n");
-    }
 
     printf("Vector = (");
-    for (i = 0; i < vector.size; i++)
-    {
-        if (i + 1 == vector.size)
-            printf("%.2f)\n", vector.coord[i]);
-        else
-            printf("%.2f ", vector.coord[i]);
-    }
+
+    for (i = 0; i < vector.size - 1; i++)
+        printf("%.2f ", vector.coord[i]);
+
+    printf("%.2f)\n", vector.coord[vector.size - 1]);
 }

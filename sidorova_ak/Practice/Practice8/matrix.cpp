@@ -1,6 +1,7 @@
+#include <iostream>
+#include <string>
 #include "matrix.h"
 #include "exceptions.h"
-#include "iostream"
 
 Matrix::Matrix()
 {
@@ -8,8 +9,7 @@ Matrix::Matrix()
     cols = 5;
 
     cells = (double*)malloc(rows * cols * sizeof(double));
-    for (int i = 0; i < rows * cols; i++)
-        cells[i] = 0;
+    memset(cells, 0, rows * cols * sizeof(double));
 }
 
 Matrix::Matrix(int _rows, int _cols)
@@ -21,8 +21,7 @@ Matrix::Matrix(int _rows, int _cols)
     cols = _cols;
 
     cells = (double*)malloc(rows * cols * sizeof(double));
-    for (int i = 0; i < rows * cols; i++)
-        cells[i] = 0;
+    memset(cells, 0, rows * cols * sizeof(double));
 }
 
 Matrix::Matrix(int _rows, int _cols, double* _cells)
@@ -82,7 +81,7 @@ Matrix Matrix::operator+(const Matrix& _add)
     Matrix result(rows, cols);
 
     for (int i = 0; i < rows * cols; i++)
-        result.cells[i] += (cells[i] + _add.cells[i]);
+        result.cells[i] = cells[i] + _add.cells[i];
 
     return result;
 }
@@ -92,7 +91,7 @@ Matrix Matrix::operator+(double num)
     Matrix result(rows, cols);
 
     for (int i = 0; i < rows * cols; i++)
-        result.cells[i] += (cells[i] + num);
+        result.cells[i] = cells[i] + num;
 
     return result;
 }
@@ -105,7 +104,7 @@ Matrix Matrix::operator-(const Matrix& _sub)
     Matrix result(rows, cols);
 
     for (int i = 0; i < rows * cols; i++)
-        result.cells[i] += (cells[i] - _sub.cells[i]);
+        result.cells[i] = cells[i] - _sub.cells[i];
 
     return result;
 }
@@ -115,12 +114,12 @@ Matrix Matrix::operator-(double num)
     Matrix result(rows, cols);
 
     for (int i = 0; i < rows * cols; i++)
-        result.cells[i] += (cells[i] - num);
+        result.cells[i] = cells[i] - num;
 
     return result;
 }
 
-Matrix Matrix::operator+=(const Matrix& _add)
+Matrix& Matrix::operator+=(const Matrix& _add)
 {
     if ((rows != _add.rows) || (cols != _add.cols))
         throw Exception("Not correct size of matrix!");
@@ -131,15 +130,15 @@ Matrix Matrix::operator+=(const Matrix& _add)
     return *this;
 }
 
-Matrix Matrix::operator+=(double num)
+Matrix& Matrix::operator+=(double num)
 {
     for (int i = 0; i < rows * cols; i++)
         cells[i] += num;
 
-        return *this;
+    return *this;
 }
 
-Matrix Matrix::operator-=(const Matrix& _add)
+Matrix& Matrix::operator-=(const Matrix& _add)
 {
     if ((rows != _add.rows) || (cols != _add.cols))
         throw Exception("Not correct size of matrix!");
@@ -150,7 +149,7 @@ Matrix Matrix::operator-=(const Matrix& _add)
     return *this;
 }
 
-Matrix Matrix::operator-=(double num)
+Matrix& Matrix::operator-=(double num)
 {
     for (int i = 0; i < rows * cols; i++)
         cells[i] -= num;
@@ -158,7 +157,7 @@ Matrix Matrix::operator-=(double num)
     return *this;
 }
 
-Matrix Matrix::operator*=(double num)
+Matrix& Matrix::operator*=(double num)
 {
     for (int i = 0; i < rows * cols; i++)
         cells[i] *= num;

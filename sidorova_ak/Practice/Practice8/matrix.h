@@ -1,6 +1,7 @@
 #ifndef _MATRIX_H_
 #define _MATRIX_H_
-#include "iostream"
+
+#include <iostream>
 
 using namespace std;
 
@@ -24,11 +25,11 @@ public:
     Matrix operator-(double);
     Matrix operator*(const Matrix&);
     Matrix operator*(double);
-    Matrix operator+=(const Matrix&);
-    Matrix operator+=(double num);
-    Matrix operator-=(const Matrix&);
-    Matrix operator-=(double num);
-    Matrix operator*=(double num);
+    Matrix& operator+=(const Matrix&);
+    Matrix& operator+=(double num);
+    Matrix& operator-=(const Matrix&);
+    Matrix& operator-=(double num);
+    Matrix& operator*=(double num);
     double* operator[](int index_rows);
 
     friend istream& operator>> (istream&, Matrix&); // Ввод
