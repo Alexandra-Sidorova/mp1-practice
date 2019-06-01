@@ -311,37 +311,45 @@ void main()
         if (ascDescType == 1) printf(" Ascending. Count of files - %d.\n", count);
         else printf(" Descending. Count of files - %d.\n", count);       
 
-        start = clock();
-
         switch (typeOfSort)
         {
         case 1:
+            start = clock();
             BubbleSort(filesSize, filesIndex, count);
+            finish = clock();
             break;
         case 2:
+            start = clock();
             InsertionSort(filesSize, filesIndex, count);
+            finish = clock();
             break;
         case 3:
+            start = clock();
             SelectionSort(filesSize, filesIndex, count);
+            finish = clock();
             break;
         case 4:
+            start = clock();
             CountingSort(filesSize, filesIndex, count);
+            finish = clock();
             break;
         case 5:
             tmpSizes = (ULONGLONG*)malloc(count * sizeof(ULONGLONG));           // Выделение доп. памяти для
             for (i = 0; i < count; i++)                                         // сохранения и изменения размеров файлов
                 tmpSizes[i] = filesSize[i];
 
+            start = clock();
             QuickSort(tmpSizes, filesIndex, 0, (count - 1));
+            finish = clock();
 
             free(tmpSizes);
             break;
         case 6:
+            start = clock();
             MergeSort(filesSize, filesIndex, 0, (count - 1));
+            finish = clock();
             break;
         }
-
-        finish = clock();
 
         OutputDirectory(filesName, filesSize, filesIndex, count, ascDescType);
         
