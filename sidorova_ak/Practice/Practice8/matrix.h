@@ -31,6 +31,7 @@ public:
     Matrix& operator-=(double num);
     Matrix& operator*=(double num);
     double* operator[](int index_rows);
+    const double* operator[](int index_rows) const;
 
     friend istream& operator>> (istream&, Matrix&); // Ввод
     friend ostream& operator<< (ostream&, const Matrix&); // Вывод

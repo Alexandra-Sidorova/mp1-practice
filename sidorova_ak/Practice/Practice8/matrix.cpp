@@ -199,6 +199,14 @@ double* Matrix::operator[](int index_rows)
     return(cells + cols * index_rows);
 }
 
+const double* Matrix::operator[](int index_rows) const
+{
+    if ((index_rows < 0) || (index_rows >= rows))
+        throw Exception("Not correct index!");
+
+    return(cells + cols * index_rows);
+}
+
 istream& operator>>(istream& in, Matrix& _matrix)
 {
     for (int i = 0; i < (_matrix.rows * _matrix.cols); i++)
