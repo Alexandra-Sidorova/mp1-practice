@@ -28,8 +28,8 @@ public:
     void RemoveIndex(const int); // удалить по индексу
     void Remove(T*);
 
-    T* operator[](int);
-    const T* operator[](int) const;
+    T*& operator[](int);
+    const T*& operator[](int) const;
 
     friend ostream& operator<<(ostream& out, const TContainer& _container)
     {
@@ -165,7 +165,7 @@ void TContainer<T*>::Remove(T* object)
 };
 
 template <typename T>
-T* TContainer<T*>::operator[](int index)
+T*& TContainer<T*>::operator[](int index)
 {
     if ((index < 0) || (index >= currentSize))
         throw Exception("Not correct index!");
@@ -174,7 +174,7 @@ T* TContainer<T*>::operator[](int index)
 };
 
 template <typename T>
-const T* TContainer<T*>::operator[](int index) const
+const T*& TContainer<T*>::operator[](int index) const
 {
     if ((index < 0) || (index >= currentSize))
         throw Exception("Not correct index!");
