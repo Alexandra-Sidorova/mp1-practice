@@ -35,7 +35,7 @@ void main()
     sides = 2 * h * d * 0.015f * densityDSP;
     lids = 2 * w * d * 0.015f * densityDSP;
     doors =  h * w *  0.01f * densityTree;
-    shelfs = (h - 2 * 0.015) / (0.4 + 0.015) * (w - 2 * 0.015) * (d - 0.005) * 0.015f * densityDSP; // Пусть высота полки равна 15 мм
+    shelfs = (int)((h - 2 * 0.015) / (0.4 + 0.015)) * (w - 2 * 0.015) * (d - 0.005) * 0.015f * densityDSP; // Пусть высота полки равна 15 мм
 
     m = wall + sides + lids + doors + shelfs;
     printf("Масса шкафа в кг равна %.3f\n", m);
